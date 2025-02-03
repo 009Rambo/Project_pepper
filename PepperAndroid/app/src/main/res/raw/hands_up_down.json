@@ -1,0 +1,38 @@
+{
+  "metaData": {
+    "name": "Hands Up Down",
+    "author": "Your Name",
+    "description": "Simple animation to move Pepper's arms up and down",
+    "version": 1.0
+  },
+  "bodyMovements": [
+    {
+      "time": 0.0,
+      "jointPositions": {
+        "LShoulderPitch": 1.0,
+        "RShoulderPitch": 1.0,
+        "LShoulderRoll": 0.0,
+        "RShoulderRoll": 0.0
+      }
+    },
+    {
+      "time": 1.0,
+      "jointPositions": {
+        "LShoulderPitch": 0.5,
+        "RShoulderPitch": 0.5,
+        "LShoulderRoll": 0.1,
+        "RShoulderRoll": -0.1
+      }
+    },
+    {
+      "time": 2.0,
+      "jointPositions": {
+        "LShoulderPitch": 1.0,
+        "RShoulderPitch": 1.0,
+        "LShoulderRoll": 0.0,
+        "RShoulderRoll": 0.0
+      }
+    }
+  ],
+  "loop": true
+}

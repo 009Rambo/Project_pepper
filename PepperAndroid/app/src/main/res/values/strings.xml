@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Pepper</string>
+    <string name="speak_with_pepper">Speak with pepper</string>
 </resources>
