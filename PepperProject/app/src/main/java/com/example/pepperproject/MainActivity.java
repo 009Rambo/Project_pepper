@@ -185,6 +185,25 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
             switch (topic) {
                 case "Coding Basics":
                     topicContent = "Coding is like giving instructions to a computer. Let's learn how to write simple code!";
+                    Say step1 = SayBuilder.with(qiContext)
+                        .withText("Think of coding like making a sandwich. You give step-by-step instructions!")
+                        .build();
+                    step1.run();
+
+                    Say step2 = SayBuilder.with(qiContext)
+                        .withText("Step one: Take a slice of bread. Step two: Spread peanut butter. Step three: Place another slice on top. Now, we have a sandwich!")
+                        .build();
+                    step2.run();
+
+                    Say step3 = SayBuilder.with(qiContext)
+                        .withText("Similarly, in coding, you give instructions like print Hello World or move forward!")
+                        .build();
+                    step3.run();
+
+                    Say quiz = SayBuilder.with(qiContext)
+                        .withText("What will this code print? Print Hello, World! Is it A: Hello, World! or B: Error?")
+                        .build();
+                    quiz.run();
                     break;
                 case "Robot Commands":
                     topicContent = "Robots like me understand special commands. Let me show you how to control robots!";
