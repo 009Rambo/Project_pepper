@@ -1,5 +1,6 @@
 package com.example.pepperproject;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
@@ -75,7 +76,9 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
         mathPuzzlesButton.setOnClickListener(v -> {
             if (qiContext != null) {
                 updateStatus("Starting Math Puzzles...");
-                startLearningTopic("Math Puzzles");
+                // Start the MathPuzzlesActivity
+                Intent intent = new Intent(MainActivity.this, MathPuzzlesActivity.class);
+                startActivity(intent);
             } else {
                 updateStatus("Error: Robot not connected");
             }
