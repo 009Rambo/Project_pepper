@@ -1,1 +1,15 @@
-/build
+# Ignore Gradle build files
+/build/
+
+# Ignore Gradle caches and daemon files
+/caches/
+/daemon/
+
+# Ignore native build files
+/native/
+
+# Ignore Gradle build scan data
+/build/scan-data/
+
+# Do not ignore Gradle wrapper files (keep in version control)
+!/wrapper/
