@@ -61,7 +61,6 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
                 // Start the CodingBasicActivity
                 Intent intent = new Intent(MainActivity.this, CodingBasicActivity.class);
                 startActivity(intent);
-                startLearningTopic("Coding Basics");
             } else {
                 updateStatus("Error: Robot not connected");
             }
