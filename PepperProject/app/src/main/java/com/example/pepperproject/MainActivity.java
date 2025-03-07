@@ -197,16 +197,15 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
                     break;
                 case "Fun Facts":
                     String[] funFacts = {
-                            "The word 'robot' comes from a Czech word 'robota,' meaning forced labor.\n" +
-                                    " The first robot was created in 1921, and it was called 'R.U.R.'—short for Rossum’s Universal Robots. It was part of a play by Karel Čapek.\n" +
-                                    " Pepper is capable of understanding and responding to human emotions!\n" +
-                                    " Robots are being used to explore distant planets, like Mars.\n" +
+                            "The word 'robot' comes from a Czech word 'robota,' meaning forced labor.\n",
+                                    " The first robot was created in 1921, and it was called 'R.U.R.'—short for Rossum’s Universal Robots. It was part of a play by Karel Čapek.\n",
+                                    " Pepper is capable of understanding and responding to human emotions!\n",
+                                    " Robots are being used to explore distant planets, like Mars.\n",
                                     " Some robots can fold laundry and even play musical instruments!"
                     };
                     // Generate a random index for the array
                     int randomIndex = (int) (Math.random() * funFacts.length);
-                    topicContent = "Did you know that robots like me can recognize faces and emotions? Let me tell you more cool facts! \n" +
-                            funFacts[randomIndex];
+                    topicContent = funFacts[randomIndex];
                     break;
             }
 
