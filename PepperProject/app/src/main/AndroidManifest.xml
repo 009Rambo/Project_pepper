@@ -11,7 +11,8 @@
         android:theme="@style/Theme.PepperProject">
         <activity
             android:name=".CodingBasicActivity"
-            android:exported="false" />
+            android:exported="false" /
+            >
         <activity
             android:name=".MathPuzzlesActivity"
             android:exported="false" />
@@ -24,6 +25,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".RobotCommandsActivity" />
+
     </application>
 
     <uses-feature android:name="com.softbank.hardware.pepper"/>
