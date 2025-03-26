@@ -69,11 +69,14 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
         robotCommandsButton.setOnClickListener(v -> {
             if (qiContext != null) {
                 updateStatus("Starting Robot Commands...");
-                startLearningTopic("Robot Commands");
+                // Start the RobotCommandsActivity
+                Intent intent = new Intent(MainActivity.this, RobotCommandsActivity.class);
+                startActivity(intent);
             } else {
                 updateStatus("Error: Robot not connected");
             }
         });
+        
 
         mathPuzzlesButton.setOnClickListener(v -> {
             if (qiContext != null) {
