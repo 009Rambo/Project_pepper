@@ -1,7 +1,9 @@
 package com.example.pepperproject;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.speech.RecognizerIntent;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -21,11 +23,14 @@ import com.aldebaran.qi.sdk.object.actuation.Animate;
 import com.aldebaran.qi.sdk.object.actuation.Animation;
 import com.aldebaran.qi.sdk.object.conversation.Say;
 
+import java.util.ArrayList;
+import java.util.Locale;
 import java.util.Random;
 
 public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycleCallbacks {
 
     private static final String TAG = "MathPuzzlesActivity";
+    private static final int SPEECH_REQUEST_CODE = 100;
     private QiContext qiContext;
     private Animate animate;
 
@@ -33,6 +38,7 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
     private TextView puzzleQuestionTextView;
     private EditText answerEditText;
     private Button submitButton;
+    private Button voiceInputButton;
     private TextView feedbackTextView;
     private TextView correctCountTextView;
     private TextView totalAttemptsTextView;
@@ -74,6 +80,7 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
         puzzleQuestionTextView = findViewById(R.id.puzzleQuestionTextView);
         answerEditText = findViewById(R.id.answerEditText);
         submitButton = findViewById(R.id.submitButton);
+        voiceInputButton = findViewById(R.id.voiceInputButton);
         feedbackTextView = findViewById(R.id.feedbackTextView);
         correctCountTextView = findViewById(R.id.correctCountTextView);
         totalAttemptsTextView = findViewById(R.id.totalAttemptsTextView);
@@ -86,6 +93,10 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
             checkAnswer();
         });
 
+        voiceInputButton.setOnClickListener(v -> {
+            startVoiceRecognition();
+        });
+
         nextPuzzleButton.setOnClickListener(v -> {
             generateNewPuzzle();
         });
@@ -93,6 +104,127 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
         backButton.setOnClickListener(v -> {
             finish();
         });
+    }
+
+    private void startVoiceRecognition() {
+        Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM);
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault());
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Say your answer...");
+        
+        try {
+            startActivityForResult(intent, SPEECH_REQUEST_CODE);
+        } catch (Exception e) {
+            Toast.makeText(this, "Speech recognition not supported on this device", Toast.LENGTH_SHORT).show();
+            Log.e(TAG, "Error starting voice recognition", e);
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        
+        if (requestCode == SPEECH_REQUEST_CODE && resultCode == RESULT_OK && data != null) {
+            ArrayList<String> result = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if (result != null && !result.isEmpty()) {
+                String spokenText = result.get(0);
+                processVoiceInput(spokenText);
+            }
+        }
+    }
+    
+    private void processVoiceInput(String spokenText) {
+        Log.d(TAG, "Voice input received: " + spokenText);
+        
+        // Try to convert the spoken text to a number
+        try {
+            // First try direct number conversion
+            int userAnswer = parseSpokenNumber(spokenText);
+            answerEditText.setText(String.valueOf(userAnswer));
+            checkAnswer();
+        } catch (NumberFormatException e) {
+            Toast.makeText(this, "Could not understand the number. Please try again.", Toast.LENGTH_SHORT).show();
+        }
+    }
+    
+    private int parseSpokenNumber(String spokenText) throws NumberFormatException {
+        // Remove any non-alphanumeric characters and convert to lowercase
+        String cleanText = spokenText.replaceAll("[^a-zA-Z0-9]", "").toLowerCase();
+        
+        // Try direct parsing first
+        try {
+            return Integer.parseInt(cleanText);
+        } catch (NumberFormatException e) {
+            // Handle word numbers
+            switch (cleanText) {
+                case "zero": return 0;
+                case "one": return 1;
+                case "two": return 2;
+                case "three": return 3;
+                case "four": return 4;
+                case "five": return 5;
+                case "six": return 6;
+                case "seven": return 7;
+                case "eight": return 8;
+                case "nine": return 9;
+                case "ten": return 10;
+                case "eleven": return 11;
+                case "twelve": return 12;
+                case "thirteen": return 13;
+                case "fourteen": return 14;
+                case "fifteen": return 15;
+                case "sixteen": return 16;
+                case "seventeen": return 17;
+                case "eighteen": return 18;
+                case "nineteen": return 19;
+                case "twenty": return 20;
+                case "thirty": return 30;
+                case "forty": return 40;
+                case "fifty": return 50;
+                case "sixty": return 60;
+                case "seventy": return 70;
+                case "eighty": return 80;
+                case "ninety": return 90;
+                default:
+                    // Try to handle compound numbers like "twenty one"
+                    if (cleanText.contains("twenty")) {
+                        return handleCompoundNumber(cleanText, "twenty", 20);
+                    } else if (cleanText.contains("thirty")) {
+                        return handleCompoundNumber(cleanText, "thirty", 30);
+                    } else if (cleanText.contains("forty")) {
+                        return handleCompoundNumber(cleanText, "forty", 40);
+                    } else if (cleanText.contains("fifty")) {
+                        return handleCompoundNumber(cleanText, "fifty", 50);
+                    } else if (cleanText.contains("sixty")) {
+                        return handleCompoundNumber(cleanText, "sixty", 60);
+                    } else if (cleanText.contains("seventy")) {
+                        return handleCompoundNumber(cleanText, "seventy", 70);
+                    } else if (cleanText.contains("eighty")) {
+                        return handleCompoundNumber(cleanText, "eighty", 80);
+                    } else if (cleanText.contains("ninety")) {
+                        return handleCompoundNumber(cleanText, "ninety", 90);
+                    }
+                    throw new NumberFormatException("Could not parse: " + spokenText);
+            }
+        }
+    }
+    
+    private int handleCompoundNumber(String text, String tens, int tensValue) {
+        String remainder = text.replace(tens, "").trim();
+        if (remainder.isEmpty()) {
+            return tensValue;
+        }
+        
+        try {
+            int units = parseSpokenNumber(remainder);
+            if (units < 10) {
+                return tensValue + units;
+            }
+        } catch (NumberFormatException e) {
+            // Ignore and throw the original exception
+        }
+        
+        throw new NumberFormatException("Could not parse compound number: " + text);
     }
 
     private void generateNewPuzzle() {
@@ -203,7 +335,7 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
                 correctCountTextView.setText(String.valueOf(correctCount));
 
                 feedbackTextView.setText("Correct! Great job!");
-                feedbackTextView.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+                feedbackTextView.setTextColor(getResources().getColor(android.R.color.holo_green_dark, null));
 
                 // Adjust difficulty based on performance
                 if (correctCount % 3 == 0) {
@@ -217,7 +349,7 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
                 }
             } else {
                 feedbackTextView.setText("Not quite. The answer is " + currentAnswer);
-                feedbackTextView.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
+                feedbackTextView.setTextColor(getResources().getColor(android.R.color.holo_red_dark, null));
 
                 // Have Pepper encourage
                 if (qiContext != null) {
