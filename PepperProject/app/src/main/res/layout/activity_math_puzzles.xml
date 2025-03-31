@@ -83,6 +83,19 @@
                         android:text="Submit"
                         android:textColor="#FFFFFF"
                         app:cornerRadius="8dp" />
+
+                    <Button
+                        android:id="@+id/voiceInputButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginStart="8dp"
+                        android:backgroundTint="#03A9F4"
+                        android:text="Voice"
+                        android:textColor="#FFFFFF"
+                        android:drawableStart="@android:drawable/ic_btn_speak_now"
+                        android:paddingStart="16dp"
+                        android:paddingEnd="16dp"
+                        app:cornerRadius="8dp" />
                 </LinearLayout>
 
                 <TextView

@@ -11,8 +11,7 @@
         android:theme="@style/Theme.PepperProject">
         <activity
             android:name=".CodingBasicActivity"
-            android:exported="false" /
-            >
+            android:exported="false" />
         <activity
             android:name=".MathPuzzlesActivity"
             android:exported="false" />
