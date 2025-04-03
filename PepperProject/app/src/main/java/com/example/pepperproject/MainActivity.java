@@ -58,9 +58,7 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
         codingBasicsButton.setOnClickListener(v -> {
             if (qiContext != null) {
                 updateStatus("Starting Coding Basics...");
-                // Start the CodingBasicActivity
-                Intent intent = new Intent(MainActivity.this, CodingBasicActivity.class);
-                startActivity(intent);
+                startLearningTopic("Coding Basics", CodingBasicActivity.class);
             } else {
                 updateStatus("Error: Robot not connected");
             }
@@ -69,21 +67,16 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
         robotCommandsButton.setOnClickListener(v -> {
             if (qiContext != null) {
                 updateStatus("Starting Robot Commands...");
-                // Start the RobotCommandsActivity
-                Intent intent = new Intent(MainActivity.this, RobotCommandsActivity.class);
-                startActivity(intent);
+                startLearningTopic("Robot Commands", RobotCommandsActivity.class);
             } else {
                 updateStatus("Error: Robot not connected");
             }
         });
         
-
         mathPuzzlesButton.setOnClickListener(v -> {
             if (qiContext != null) {
                 updateStatus("Starting Math Puzzles...");
-                // Start the MathPuzzlesActivity
-                Intent intent = new Intent(MainActivity.this, MathPuzzlesActivity.class);
-                startActivity(intent);
+                startLearningTopic("Math Puzzles", MathPuzzlesActivity.class);
             } else {
                 updateStatus("Error: Robot not connected");
             }
@@ -92,19 +85,19 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
         funFactsButton.setOnClickListener(v -> {
             if (qiContext != null) {
                 updateStatus("Starting Fun Facts...");
-                startLearningTopic("Fun Facts");
+                startLearningTopic("Fun Facts", null);
             } else {
                 updateStatus("Error: Robot not connected");
             }
         });
     }
 
-    private void startLearningTopic(String topic) {
+    private void startLearningTopic(String topic, Class<?> activityToStart) {
         // Disable all buttons during interaction
         setButtonsEnabled(false);
 
         // Use AsyncTask to perform operations off the main thread
-        currentTask = new StartInteractionTask(topic);
+        currentTask = new StartInteractionTask(topic, activityToStart);
         currentTask.execute();
     }
 
@@ -125,9 +118,11 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
     // AsyncTask to handle operations off the main thread
     private class StartInteractionTask extends AsyncTask<Void, String, Boolean> {
         private String learningTopic;
+        private Class<?> activityToStart;
 
-        public StartInteractionTask(String topic) {
+        public StartInteractionTask(String topic, Class<?> activityToStart) {
             this.learningTopic = topic;
+            this.activityToStart = activityToStart;
         }
 
         @Override
@@ -151,6 +146,12 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
 
         @Override
         protected void onPostExecute(Boolean success) {
+            if (success && activityToStart != null) {
+                // Start the activity after the introduction
+                Intent intent = new Intent(MainActivity.this, activityToStart);
+                startActivity(intent);
+            }
+            
             // Re-enable buttons after interaction
             setButtonsEnabled(true);
 
@@ -177,14 +178,14 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
             updateTaskProgress("Preparing to teach " + topic + "...");
 
             // Create a say action with topic-specific greeting
-            String greeting = "Let's learn about " + topic + "! This is going to be fun!";
-            Say say = SayBuilder.with(qiContext)
-                    .withText(greeting)
-                    .build();
+        //    String greeting = "Let's learn about " + topic + "! This is going to be fun!";
+        //    Say say = SayBuilder.with(qiContext)
+        //            .withText(greeting)
+        //            .build();
 
             // Run the say action
-            updateTaskProgress("Pepper is speaking...");
-            say.run();
+        //    updateTaskProgress("Pepper is speaking...");
+        //    say.run();
 
             // Topic-specific content and animations would go here
             // For now, just a placeholder with different messages per topic
@@ -193,25 +194,6 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
             switch (topic) {
                 case "Coding Basics":
                     topicContent = "Coding is like giving instructions to a computer. Let's learn how to write simple code!";
-                    Say step1 = SayBuilder.with(qiContext)
-                        .withText("Think of coding like making a sandwich. You give step-by-step instructions!")
-                        .build();
-                    step1.run();
-
-                    Say step2 = SayBuilder.with(qiContext)
-                        .withText("Step one: Take a slice of bread. Step two: Spread peanut butter. Step three: Place another slice on top. Now, we have a sandwich!")
-                        .build();
-                    step2.run();
-
-                    Say step3 = SayBuilder.with(qiContext)
-                        .withText("Similarly, in coding, you give instructions like print Hello World or move forward!")
-                        .build();
-                    step3.run();
-
-                    Say quiz = SayBuilder.with(qiContext)
-                        .withText("What will this code print? Print Hello, World! Is it A: Hello, World! or B: Error?")
-                        .build();
-                    quiz.run();
                     break;
                 case "Robot Commands":
                     topicContent = "Robots like me understand special commands. Let me show you how to control robots!";
@@ -240,30 +222,30 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
             topicSay.run();
 
             // Only do animation for specific topics, not for the main menu
-            if (!topic.equals("Main Menu")) {
-                // Do a little dance or animation
-                updateTaskProgress("Showing a fun animation...");
-                Animation animation = AnimationBuilder.with(qiContext)
-                        .withResources(R.raw.nicereaction_a001)
-                        .build();
+        //    if (!topic.equals("Main Menu")) {
+        //        // Do a little dance or animation
+        //        updateTaskProgress("Showing a fun animation...");
+        //        Animation animation = AnimationBuilder.with(qiContext)
+        //                .withResources(R.raw.nicereaction_a001)
+        //                .build();
 
-                animate = AnimateBuilder.with(qiContext)
-                        .withAnimation(animation)
-                        .build();
+        //        animate = AnimateBuilder.with(qiContext)
+        //                .withAnimation(animation)
+        //                .build();
 
-                animate.addOnStartedListener(() -> {
-                    Log.i(TAG, "Animation started.");
-                    updateTaskProgress("Pepper is animating...");
-                });
+        //        animate.addOnStartedListener(() -> {
+        //            Log.i(TAG, "Animation started.");
+        //            updateTaskProgress("Pepper is animating...");
+        //        });
 
-                animate.run();
-            }
+        //        animate.run();
+        //    }
 
             // Conclude the topic
-            Say conclusion = SayBuilder.with(qiContext)
-                    .withText("That was fun! What would you like to learn next?")
-                    .build();
-            conclusion.run();
+         //   Say conclusion = SayBuilder.with(qiContext)
+        //            .withText("That was fun! What would you like to learn next?")
+        //            .build();
+        //    conclusion.run();
 
             Log.i(TAG, "Learning topic completed: " + topic);
             updateTaskProgress("Completed " + topic + "!");
