@@ -57,7 +57,7 @@ public class MathTopicsActivity extends RobotActivity implements RobotLifecycleC
         });
 
         multiplicationButton.setOnClickListener(v -> {
-            Toast.makeText(this, "Multiplication topic coming soon!", Toast.LENGTH_SHORT).show();
+            explainMultiplication();
         });
 
         divisionButton.setOnClickListener(v -> {
@@ -139,7 +139,31 @@ public class MathTopicsActivity extends RobotActivity implements RobotLifecycleC
             }
         }).start();
     }
+    private void explainMultiplication() {
+        if (qiContext == null) {
+            Toast.makeText(this, "Robot not connected", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
+        setButtonsEnabled(false);
+        Toast.makeText(this, "Explaining multiplication...", Toast.LENGTH_SHORT).show();
+
+        new Thread(() -> {
+            try {
+                String explanation = "Multiplication is repeated addition. " +
+                        "If you have 3 bags and each bag has 4 apples, you have 3 times 4, which is 12 apples.";
+                Say say = SayBuilder.with(qiContext).withText(explanation).build();
+                say.run();
+
+                runOnUiThread(() -> setButtonsEnabled(true));
+            } catch (Exception e) {
+                runOnUiThread(() -> {
+                    Toast.makeText(MathTopicsActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    setButtonsEnabled(true);
+                });
+            }
+        }).start();
+    }
     private void setButtonsEnabled(boolean enabled) {
         additionButton.setEnabled(enabled);
         subtractionButton.setEnabled(enabled);
