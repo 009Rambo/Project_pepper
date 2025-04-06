@@ -61,7 +61,7 @@ public class MathTopicsActivity extends RobotActivity implements RobotLifecycleC
         });
 
         divisionButton.setOnClickListener(v -> {
-            Toast.makeText(this, "Division topic coming soon!", Toast.LENGTH_SHORT).show();
+            explainDivision();
         });
 
         mathPuzzlesButton.setOnClickListener(v -> {
@@ -113,6 +113,7 @@ public class MathTopicsActivity extends RobotActivity implements RobotLifecycleC
             }
         }).start();
     }
+
     private void explainSubtraction() {
         if (qiContext == null) {
             Toast.makeText(this, "Robot not connected", Toast.LENGTH_SHORT).show();
@@ -139,6 +140,7 @@ public class MathTopicsActivity extends RobotActivity implements RobotLifecycleC
             }
         }).start();
     }
+
     private void explainMultiplication() {
         if (qiContext == null) {
             Toast.makeText(this, "Robot not connected", Toast.LENGTH_SHORT).show();
@@ -164,6 +166,34 @@ public class MathTopicsActivity extends RobotActivity implements RobotLifecycleC
             }
         }).start();
     }
+
+    private void explainDivision() {
+        if (qiContext == null) {
+            Toast.makeText(this, "Robot not connected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        setButtonsEnabled(false);
+        Toast.makeText(this, "Explaining division...", Toast.LENGTH_SHORT).show();
+
+        new Thread(() -> {
+            try {
+                String explanation = "Division is splitting something into equal parts. " +
+                        "If you have 12 candies and share them equally with 3 friends, each gets 4. " +
+                        "That's 12 divided by 3 equals 4.";
+                Say say = SayBuilder.with(qiContext).withText(explanation).build();
+                say.run();
+
+                runOnUiThread(() -> setButtonsEnabled(true));
+            } catch (Exception e) {
+                runOnUiThread(() -> {
+                    Toast.makeText(MathTopicsActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    setButtonsEnabled(true);
+                });
+            }
+        }).start();
+    }
+
     private void setButtonsEnabled(boolean enabled) {
         additionButton.setEnabled(enabled);
         subtractionButton.setEnabled(enabled);
