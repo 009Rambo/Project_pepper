@@ -53,7 +53,7 @@ public class MathTopicsActivity extends RobotActivity implements RobotLifecycleC
         });
 
         subtractionButton.setOnClickListener(v -> {
-            Toast.makeText(this, "Subtraction topic coming soon!", Toast.LENGTH_SHORT).show();
+            explainSubtraction();
         });
 
         multiplicationButton.setOnClickListener(v -> {
@@ -113,7 +113,33 @@ public class MathTopicsActivity extends RobotActivity implements RobotLifecycleC
             }
         }).start();
     }
-    
+    private void explainSubtraction() {
+        if (qiContext == null) {
+            Toast.makeText(this, "Robot not connected", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        setButtonsEnabled(false);
+        Toast.makeText(this, "Explaining subtraction...", Toast.LENGTH_SHORT).show();
+
+        new Thread(() -> {
+            try {
+                String explanation = "Subtraction is when we take something away. " +
+                        "If you have 5 candies and eat 2, you are left with 3. " +
+                        "That's 5 minus 2 equals 3.";
+                Say say = SayBuilder.with(qiContext).withText(explanation).build();
+                say.run();
+
+                runOnUiThread(() -> setButtonsEnabled(true));
+            } catch (Exception e) {
+                runOnUiThread(() -> {
+                    Toast.makeText(MathTopicsActivity.this, "Error: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    setButtonsEnabled(true);
+                });
+            }
+        }).start();
+    }
+
     private void setButtonsEnabled(boolean enabled) {
         additionButton.setEnabled(enabled);
         subtractionButton.setEnabled(enabled);
