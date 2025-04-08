@@ -26,6 +26,9 @@ import com.aldebaran.qi.sdk.object.conversation.Say;
 import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Random;
+import android.app.Dialog;
+import android.view.LayoutInflater;
+import android.view.Window;
 
 public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycleCallbacks {
 
@@ -51,6 +54,7 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
     private int totalAttempts = 0;
     private Random random = new Random();
     private MathPuzzleTask currentTask;
+    private boolean explanationShown = false;
 
     // Puzzle difficulty levels
     private enum Difficulty {
@@ -72,8 +76,48 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
         // Set up button click listeners
         setupButtonListeners();
 
+        // Show explanation dialog
+        showExplanationDialog();
+
         // Generate first puzzle
         generateNewPuzzle();
+    }
+
+    private void showExplanationDialog() {
+        if (explanationShown) {
+            return;
+        }
+        
+        // Create the custom dialog
+        final Dialog dialog = new Dialog(this);
+        dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        dialog.setCancelable(false);
+        dialog.setContentView(R.layout.dialog_math_puzzle_explanation);
+        
+        // Set dialog width to match parent
+        Window window = dialog.getWindow();
+        if (window != null) {
+            window.setLayout(
+                    android.view.WindowManager.LayoutParams.MATCH_PARENT,
+                    android.view.WindowManager.LayoutParams.WRAP_CONTENT
+            );
+        }
+        
+        // Set up the start button click listener
+        Button startButton = dialog.findViewById(R.id.btnStartPuzzles);
+        startButton.setOnClickListener(v -> {
+            dialog.dismiss();
+            
+            // Have Pepper introduce the puzzles if available
+            if (qiContext != null) {
+                currentTask = new MathPuzzleTask("Let's solve some math puzzles! I'll start with easy ones and make them harder as you progress.");
+                currentTask.execute();
+            }
+        });
+        
+        // Show the dialog
+        dialog.show();
+        explanationShown = true;
     }
 
     private void initializeViews() {
