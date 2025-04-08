@@ -308,10 +308,35 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
 
         puzzleQuestionTextView.setText(question);
 
-        // Have Pepper say the question
+        // Have Pepper say the question first, with priority
         if (qiContext != null) {
-            currentTask = new MathPuzzleTask(question);
-            currentTask.execute();
+            // Create a special task that only speaks the question
+            new QuestionTask(question).execute();
+        }
+    }
+
+    // Special task class just for speaking the question
+    private class QuestionTask extends AsyncTask<Void, String, Boolean> {
+        private String questionText;
+
+        public QuestionTask(String questionText) {
+            this.questionText = questionText;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                // Create and run the say action for the question
+                Say say = SayBuilder.with(qiContext)
+                        .withText(questionText)
+                        .build();
+                say.run();
+                
+                return true;
+            } catch (Exception e) {
+                Log.e(TAG, "Error during question speech", e);
+                return false;
+            }
         }
     }
 
@@ -392,20 +417,12 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
         @Override
         protected Boolean doInBackground(Void... voids) {
             try {
-                // Create a say action
-                Say say = SayBuilder.with(qiContext)
-                        .withText(text)
-                        .build();
-
-                // Run the say action
-                say.run();
-
-                // If it's a correct answer, do a happy animation
+                // If it's a correct answer, do a happy animation first, then speak
                 if (text.contains("Correct")) {
                     try {
                         // Create an animation from the raw resource
                         Animation animation = AnimationBuilder.with(qiContext)
-                                .withResources(R.raw.nicereaction_a001)
+                                .withResources(R.raw.nicereaction_a002)
                                 .build();
 
                         // Create an animate action
@@ -413,11 +430,50 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
                                 .withAnimation(animation)
                                 .build();
 
-                        // Run the animate action
+                        // Run the animate action first
                         animate.run();
+                        
+                        // Then create and run the say action
+                        Say say = SayBuilder.with(qiContext)
+                                .withText(text)
+                                .build();
+                        say.run();
                     } catch (Exception e) {
                         Log.e(TAG, "Error during animation", e);
                     }
+                }
+                // If it's a wrong answer, do a negation animation first, then speak
+                else if (text.contains("Not quite")) {
+                    try {
+                        // Create an animation from the raw resource
+                        Animation animation = AnimationBuilder.with(qiContext)
+                                .withResources(R.raw.negation_both_hands_a002)
+                                .build();
+
+                        // Create an animate action
+                        animate = AnimateBuilder.with(qiContext)
+                                .withAnimation(animation)
+                                .build();
+
+                        // Run the animate action first
+                        animate.run();
+                        
+                        // Then create and run the say action
+                        Say say = SayBuilder.with(qiContext)
+                                .withText(text)
+                                .build();
+                        say.run();
+                    } catch (Exception e) {
+                        Log.e(TAG, "Error during animation", e);
+                    }
+                }
+                // For other messages, just say them without animation
+                else {
+                    // Create and run the say action
+                    Say say = SayBuilder.with(qiContext)
+                            .withText(text)
+                            .build();
+                    say.run();
                 }
 
                 return true;
@@ -432,6 +488,13 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
     public void onRobotFocusGained(QiContext qiContext) {
         this.qiContext = qiContext;
         Log.i(TAG, "Robot focus gained");
+        
+        // Speak the current question when robot focus is first gained
+        // This ensures the first question is spoken even if generateNewPuzzle was called before robot focus was gained
+        String currentQuestion = puzzleQuestionTextView.getText().toString();
+        if (!TextUtils.isEmpty(currentQuestion)) {
+            new QuestionTask(currentQuestion).execute();
+        }
     }
 
     @Override
