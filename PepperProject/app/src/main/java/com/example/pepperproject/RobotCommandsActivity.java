@@ -24,6 +24,10 @@ import com.aldebaran.qi.sdk.object.conversation.Say;
 import com.aldebaran.qi.sdk.object.geometry.Quaternion;
 import com.aldebaran.qi.sdk.object.geometry.Transform;
 import com.aldebaran.qi.sdk.object.geometry.Vector3;
+import com.aldebaran.qi.sdk.builder.AnimateBuilder;
+import com.aldebaran.qi.sdk.builder.AnimationBuilder;
+import com.aldebaran.qi.sdk.object.actuation.Animate;
+import com.aldebaran.qi.sdk.object.actuation.Animation;
 
 import java.lang.ref.WeakReference;
 import java.util.Arrays;
@@ -161,6 +165,31 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
         executor.execute(new VoiceCommandTask(this, qiContext));
     }
 
+    // wave hand
+
+    private void waveHand() {
+        if (qiContext != null) {
+            try {
+                Animation animation = AnimationBuilder.with(qiContext)
+                        .withResources(R.raw.hello_a001)
+                        .build();
+
+                Animate animate = AnimateBuilder.with(qiContext)
+                        .withAnimation(animation)
+                        .build();
+
+                animate.run();
+
+                Say say = SayBuilder.with(qiContext)
+                        .withText("Hello! I'm Pepper!")
+                        .build();
+                say.run();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
     // Static class to avoid memory leaks
     private static class VoiceCommandTask implements Runnable {
         private final WeakReference<RobotCommandsActivity> activityRef;
@@ -178,8 +207,7 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
                         new Phrase("move forward"),
                         new Phrase("turn left"),
                         new Phrase("turn right"),
-                        new Phrase("say hello")
-                );
+                        new Phrase("say hello"));
 
                 PhraseSet phraseSet = PhraseSetBuilder.with(qiContext)
                         .withPhrases(phrases)
@@ -206,11 +234,9 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
                                 activity.turnRight();
                                 break;
                             case "say hello":
-                                Say helloSay = SayBuilder.with(activity.qiContext)
-                                        .withText("Hello! How can I assist you?")
-                                        .build();
-                                helloSay.run();
+                                activity.waveHand(); // Call new method
                                 break;
+
                             default:
                                 Say unknownSay = SayBuilder.with(activity.qiContext)
                                         .withText("Sorry, I didn't understand.")
