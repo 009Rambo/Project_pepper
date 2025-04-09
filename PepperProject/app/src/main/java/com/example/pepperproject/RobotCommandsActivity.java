@@ -169,12 +169,13 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
         String message = speakInput.getText().toString();
 
         if (qiContext != null) {
-            // Real Pepper speaks
-            Say say = SayBuilder.with(qiContext).withText(message).build();
-            say.run();
+            // Run speech on a background thread to avoid crashing
+            executor.execute(() -> {
+                Say say = SayBuilder.with(qiContext).withText(message).build();
+                say.run();
+            });
         } else {
-            // Emulator fallback
-            android.util.Log.d("DEBUG", "Emulator: pretend to say → " + message);
+            android.util.Log.d("DEBUG", "Emulator fallback → " + message);
             android.widget.Toast.makeText(this, "Pepper says: " + message, Toast.LENGTH_SHORT).show();
         }
     }
