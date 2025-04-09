@@ -92,69 +92,102 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
 
     private void moveForward() {
         if (qiContext != null) {
-            try {
-                Transform transform = TransformBuilder.create().fromTranslation(new Vector3(0.3, 0.0, 0.0));
-                FreeFrame freeFrame = qiContext.getMapping().makeFreeFrame();
-                Frame robotFrame = qiContext.getActuation().robotFrame();
-                freeFrame.update(robotFrame, transform, System.nanoTime());
-                Frame targetFrame = freeFrame.frame();
+            // Real Pepper
+            executor.execute(() -> {
+                try {
+                    Transform transform = TransformBuilder.create().fromTranslation(new Vector3(0.3, 0.0, 0.0));
+                    FreeFrame freeFrame = qiContext.getMapping().makeFreeFrame();
+                    Frame robotFrame = qiContext.getActuation().robotFrame();
+                    freeFrame.update(robotFrame, transform, System.nanoTime());
+                    Frame targetFrame = freeFrame.frame();
 
-                Say say = SayBuilder.with(qiContext).withText("Moving forward!").build();
-                say.run();
+                    Say say = SayBuilder.with(qiContext).withText("Moving forward!").build();
+                    say.run();
 
-                GoTo goTo = GoToBuilder.with(qiContext)
-                        .withFrame(targetFrame)
-                        .build();
-                goTo.run();
-            } catch (Exception e) {
-                Say error = SayBuilder.with(qiContext)
-                        .withText("Oops! I can't move right now.")
-                        .build();
-                error.run();
-                e.printStackTrace();
-            }
+                    GoTo goTo = GoToBuilder.with(qiContext)
+                            .withFrame(targetFrame)
+                            .build();
+                    goTo.run();
+                } catch (Exception e) {
+                    Say error = SayBuilder.with(qiContext)
+                            .withText("Oops! I can't move right now.")
+                            .build();
+                    error.run();
+                    e.printStackTrace();
+                }
+            });
+        } else {
+            // Fallback for emulator testing
+            android.util.Log.d("DEBUG", "Emulator fallback → moveForward()");
+            android.widget.Toast.makeText(this, "Simulated: Pepper would move forward", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void turnLeft() {
         if (qiContext != null) {
-            double angle = Math.PI / 2;
-            Quaternion quaternion = getRotationQuaternion(angle);
+            executor.execute(() -> {
+                try {
+                    double angle = Math.PI / 2;
+                    Quaternion quaternion = getRotationQuaternion(angle);
 
-            Transform transform = TransformBuilder.create().fromRotation(quaternion);
-            FreeFrame freeFrame = qiContext.getMapping().makeFreeFrame();
-            Frame robotFrame = qiContext.getActuation().robotFrame();
-            freeFrame.update(robotFrame, transform, System.nanoTime());
-            Frame targetFrame = freeFrame.frame();
+                    Transform transform = TransformBuilder.create().fromRotation(quaternion);
+                    FreeFrame freeFrame = qiContext.getMapping().makeFreeFrame();
+                    Frame robotFrame = qiContext.getActuation().robotFrame();
+                    freeFrame.update(robotFrame, transform, System.nanoTime());
+                    Frame targetFrame = freeFrame.frame();
 
-            Say say = SayBuilder.with(qiContext).withText("Turning left!").build();
-            say.run();
+                    Say say = SayBuilder.with(qiContext).withText("Turning left!").build();
+                    say.run();
 
-            GoTo goTo = GoToBuilder.with(qiContext)
-                    .withFrame(targetFrame)
-                    .build();
-            goTo.run();
+                    GoTo goTo = GoToBuilder.with(qiContext)
+                            .withFrame(targetFrame)
+                            .build();
+                    goTo.run();
+                } catch (Exception e) {
+                    Say error = SayBuilder.with(qiContext)
+                            .withText("Oops! I can't turn left now.")
+                            .build();
+                    error.run();
+                    e.printStackTrace();
+                }
+            });
+        } else {
+            android.util.Log.d("DEBUG", "Emulator fallback → turnLeft()");
+            android.widget.Toast.makeText(this, "Simulated: Pepper would turn left", Toast.LENGTH_SHORT).show();
         }
     }
 
     private void turnRight() {
         if (qiContext != null) {
-            double angle = -Math.PI / 2;
-            Quaternion quaternion = getRotationQuaternion(angle);
+            executor.execute(() -> {
+                try {
+                    double angle = -Math.PI / 2;
+                    Quaternion quaternion = getRotationQuaternion(angle);
 
-            Transform transform = TransformBuilder.create().fromRotation(quaternion);
-            FreeFrame freeFrame = qiContext.getMapping().makeFreeFrame();
-            Frame robotFrame = qiContext.getActuation().robotFrame();
-            freeFrame.update(robotFrame, transform, System.nanoTime());
-            Frame targetFrame = freeFrame.frame();
+                    Transform transform = TransformBuilder.create().fromRotation(quaternion);
+                    FreeFrame freeFrame = qiContext.getMapping().makeFreeFrame();
+                    Frame robotFrame = qiContext.getActuation().robotFrame();
+                    freeFrame.update(robotFrame, transform, System.nanoTime());
+                    Frame targetFrame = freeFrame.frame();
 
-            Say say = SayBuilder.with(qiContext).withText("Turning right!").build();
-            say.run();
+                    Say say = SayBuilder.with(qiContext).withText("Turning right!").build();
+                    say.run();
 
-            GoTo goTo = GoToBuilder.with(qiContext)
-                    .withFrame(targetFrame)
-                    .build();
-            goTo.run();
+                    GoTo goTo = GoToBuilder.with(qiContext)
+                            .withFrame(targetFrame)
+                            .build();
+                    goTo.run();
+                } catch (Exception e) {
+                    Say error = SayBuilder.with(qiContext)
+                            .withText("Oops! I can't turn right now.")
+                            .build();
+                    error.run();
+                    e.printStackTrace();
+                }
+            });
+        } else {
+            android.util.Log.d("DEBUG", "Emulator fallback → turnRight()");
+            android.widget.Toast.makeText(this, "Simulated: Pepper would turn right", Toast.LENGTH_SHORT).show();
         }
     }
 
