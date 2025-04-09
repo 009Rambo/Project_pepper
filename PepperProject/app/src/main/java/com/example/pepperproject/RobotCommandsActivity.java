@@ -127,10 +127,10 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
         if (qiContext != null) {
             executor.execute(() -> {
                 try {
-                    double angle = Math.PI / 2;
-                    Quaternion quaternion = getRotationQuaternion(angle);
+                    // Move slightly forward and to the left
+                    Transform transform = TransformBuilder.create().fromTranslation(new Vector3(0.0, 0.0, 0.0))
+                            .fromRotation(getRotationQuaternion(Math.PI / 2)); // 90° left
 
-                    Transform transform = TransformBuilder.create().fromRotation(quaternion);
                     FreeFrame freeFrame = qiContext.getMapping().makeFreeFrame();
                     Frame robotFrame = qiContext.getActuation().robotFrame();
                     freeFrame.update(robotFrame, transform, System.nanoTime());
@@ -161,10 +161,10 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
         if (qiContext != null) {
             executor.execute(() -> {
                 try {
-                    double angle = -Math.PI / 2;
-                    Quaternion quaternion = getRotationQuaternion(angle);
+                    // Move slightly forward and to the right
+                    Transform transform = TransformBuilder.create().fromTranslation(new Vector3(0.0, 0.0, 0.0))
+                            .fromRotation(getRotationQuaternion(-Math.PI / 2)); // 90° right
 
-                    Transform transform = TransformBuilder.create().fromRotation(quaternion);
                     FreeFrame freeFrame = qiContext.getMapping().makeFreeFrame();
                     Frame robotFrame = qiContext.getActuation().robotFrame();
                     freeFrame.update(robotFrame, transform, System.nanoTime());
