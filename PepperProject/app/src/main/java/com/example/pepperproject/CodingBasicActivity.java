@@ -37,6 +37,7 @@ public class CodingBasicActivity extends RobotActivity implements RobotLifecycle
     private Button nextQuestionButton;  // Button to move to the next question
     private Button backButton;  // Button to go back to the previous screen
     private Button playBlockGameButton;  // Button to launch a block-based game activity
+    private Button chatGptButton;
 
     private String currentQuestion;  // Holds the current question
     private String currentAnswer;  // Holds the correct answer for the current question
@@ -44,6 +45,7 @@ public class CodingBasicActivity extends RobotActivity implements RobotLifecycle
     private Animate animate;  // Animation to be played on Pepper robot
 
     private Random random = new Random();  // Random object to pick a random question
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +68,7 @@ public class CodingBasicActivity extends RobotActivity implements RobotLifecycle
         nextQuestionButton = findViewById(R.id.nextQuestionButton);
         backButton = findViewById(R.id.backButton);
         playBlockGameButton = findViewById(R.id.playBlockGameButton);
+        chatGptButton = findViewById(R.id.chatGptButton);
     }
 
     // Sets up the button listeners to handle user interactions
@@ -76,6 +79,11 @@ public class CodingBasicActivity extends RobotActivity implements RobotLifecycle
         playBlockGameButton.setOnClickListener(v -> {
             // Launches a new activity for a block-based game
             Intent intent = new Intent(CodingBasicActivity.this, BlockGameActivity.class);
+            startActivity(intent);
+        });
+        chatGptButton.setOnClickListener(v -> {
+            // Launches a new activity for a chatGPT
+            Intent intent = new Intent(CodingBasicActivity.this, ChatWithVoiceActivity.class);
             startActivity(intent);
         });
     }
