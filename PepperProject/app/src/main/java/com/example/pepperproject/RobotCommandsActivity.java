@@ -90,19 +90,27 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
 
     private void moveForward() {
         if (qiContext != null) {
-            Transform transform = TransformBuilder.create().fromTranslation(new Vector3(0.3, 0.0, 0.0));
-            FreeFrame freeFrame = qiContext.getMapping().makeFreeFrame();
-            Frame robotFrame = qiContext.getActuation().robotFrame();
-            freeFrame.update(robotFrame, transform, System.nanoTime());
-            Frame targetFrame = freeFrame.frame();
+            try {
+                Transform transform = TransformBuilder.create().fromTranslation(new Vector3(0.3, 0.0, 0.0));
+                FreeFrame freeFrame = qiContext.getMapping().makeFreeFrame();
+                Frame robotFrame = qiContext.getActuation().robotFrame();
+                freeFrame.update(robotFrame, transform, System.nanoTime());
+                Frame targetFrame = freeFrame.frame();
 
-            Say say = SayBuilder.with(qiContext).withText("Moving forward!").build();
-            say.run();
+                Say say = SayBuilder.with(qiContext).withText("Moving forward!").build();
+                say.run();
 
-            GoTo goTo = GoToBuilder.with(qiContext)
-                    .withFrame(targetFrame)
-                    .build();
-            goTo.run();
+                GoTo goTo = GoToBuilder.with(qiContext)
+                        .withFrame(targetFrame)
+                        .build();
+                goTo.run();
+            } catch (Exception e) {
+                Say error = SayBuilder.with(qiContext)
+                        .withText("Oops! I can't move right now.")
+                        .build();
+                error.run();
+                e.printStackTrace();
+            }
         }
     }
 
@@ -158,10 +166,16 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
     }
 
     private void speakMessage() {
+        String message = speakInput.getText().toString();
+
         if (qiContext != null) {
-            String message = speakInput.getText().toString();
+            // Real Pepper speaks
             Say say = SayBuilder.with(qiContext).withText(message).build();
             say.run();
+        } else {
+            // Emulator fallback
+            android.util.Log.d("DEBUG", "Emulator: pretend to say → " + message);
+            android.widget.Toast.makeText(this, "Pepper says: " + message, Toast.LENGTH_SHORT).show();
         }
     }
 
