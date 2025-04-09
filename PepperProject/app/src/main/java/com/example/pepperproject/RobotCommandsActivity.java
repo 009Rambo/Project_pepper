@@ -38,7 +38,7 @@ import java.util.concurrent.Executors;
 public class RobotCommandsActivity extends RobotActivity implements RobotLifecycleCallbacks {
 
     private QiContext qiContext;
-    private Button moveForwardButton, turnLeftButton, turnRightButton, speakButton, voiceCommandButton;
+    private Button moveForwardButton, turnLeftButton, turnRightButton, speakButton, voiceCommandButton, backRbButton;
     private EditText speakInput;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
     private Button danceButton;
@@ -64,6 +64,8 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
         voiceCommandButton.setOnClickListener(v -> listenForCommands());
         danceButton = findViewById(R.id.danceButton);
         danceButton.setOnClickListener(v -> makePepperDance());
+        Button backRbButton = findViewById(R.id.backRbButton);
+        backRbButton.setOnClickListener(v -> finish());
 
     }
 
