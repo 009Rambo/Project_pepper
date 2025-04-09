@@ -88,5 +88,16 @@
             android:textColor="#FFFFFF"
             android:padding="12dp" />
 
+            <!-- dance button-->
+            <Button
+    android:id="@+id/danceButton"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Dance"
+    android:backgroundTint="@color/purple_700"
+    android:textColor="@android:color/white"
+    android:layout_marginTop="10dp"/>
+
+
     </LinearLayout>
 </ScrollView>

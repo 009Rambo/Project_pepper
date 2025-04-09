@@ -41,6 +41,7 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
     private Button moveForwardButton, turnLeftButton, turnRightButton, speakButton, voiceCommandButton;
     private EditText speakInput;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
+    private Button danceButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,9 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
         turnRightButton.setOnClickListener(v -> turnRight());
         speakButton.setOnClickListener(v -> speakMessage());
         voiceCommandButton.setOnClickListener(v -> listenForCommands());
+        danceButton = findViewById(R.id.danceButton);
+        danceButton.setOnClickListener(v -> makePepperDance());
+
     }
 
     @Override
@@ -163,6 +167,31 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
 
     private void listenForCommands() {
         executor.execute(new VoiceCommandTask(this, qiContext));
+    }
+
+    // dance feature
+
+    private void makePepperDance() {
+        if (qiContext != null) {
+            try {
+                Animation animation = AnimationBuilder.with(qiContext)
+                        .withResources(R.raw.dance_b005)
+                        .build();
+
+                Animate animate = AnimateBuilder.with(qiContext)
+                        .withAnimation(animation)
+                        .build();
+
+                animate.run();
+
+                Say say = SayBuilder.with(qiContext)
+                        .withText("Time to dance!")
+                        .build();
+                say.run();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     // wave hand
