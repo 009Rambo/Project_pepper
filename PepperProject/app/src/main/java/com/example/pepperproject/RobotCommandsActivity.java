@@ -39,7 +39,8 @@ import java.util.concurrent.Executors;
 public class RobotCommandsActivity extends RobotActivity implements RobotLifecycleCallbacks {
 
     private QiContext qiContext;
-    private Button moveForwardButton, turnLeftButton, turnRightButton, speakButton, voiceCommandButton, backRbButton, danceButton;
+    private Button moveForwardButton, turnLeftButton, turnRightButton,
+            speakButton, voiceCommandButton, backRbButton, danceButton;
     private EditText speakInput;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
 
@@ -48,16 +49,16 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_robot_commands);
 
-        QiSDK.register(this, this); // Register for robot lifecycle
+        QiSDK.register(this, this);      // Register for robot lifecycle
 
-        moveForwardButton = findViewById(R.id.moveForwardButton);
-        turnLeftButton = findViewById(R.id.turnLeftButton);
-        turnRightButton = findViewById(R.id.turnRightButton);
-        speakButton = findViewById(R.id.speakButton);
-        voiceCommandButton = findViewById(R.id.voiceCommandButton);
-        speakInput = findViewById(R.id.speakInput);
-        danceButton = findViewById(R.id.danceButton);
-        backRbButton = findViewById(R.id.backRbButton);
+        moveForwardButton   = findViewById(R.id.moveForwardButton);
+        turnLeftButton      = findViewById(R.id.turnLeftButton);
+        turnRightButton     = findViewById(R.id.turnRightButton);
+        speakButton         = findViewById(R.id.speakButton);
+        voiceCommandButton  = findViewById(R.id.voiceCommandButton);
+        speakInput          = findViewById(R.id.speakInput);
+        danceButton         = findViewById(R.id.danceButton);
+        backRbButton        = findViewById(R.id.backRbButton);
 
         moveForwardButton.setOnClickListener(v -> moveForward());
         turnLeftButton.setOnClickListener(v -> turnLeft());
@@ -75,36 +76,30 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
         super.onDestroy();
     }
 
-    @Override
-    public void onRobotFocusGained(QiContext qiContext) {
-        this.qiContext = qiContext;
-    }
-
-    @Override
-    public void onRobotFocusLost() {
-        this.qiContext = null;
-    }
-
-    @Override
-    public void onRobotFocusRefused(String reason) {
-        Log.w("RobotCommandsActivity", "Robot focus refused: " + reason);
-    }
+    @Override public void onRobotFocusGained(QiContext qiContext) { this.qiContext = qiContext; }
+    @Override public void onRobotFocusLost()                    { this.qiContext = null;      }
+    @Override public void onRobotFocusRefused(String reason)    { Log.w("RobotCommands", "Focus refused: " + reason); }
 
     /**
      * Move Pepper 30 cm forward (Real Pepper).
      */
     private void moveForward() {
         if (qiContext == null) return;
-        // Real Pepper execution
+
+        // Real Pepper
         executor.execute(() -> {
             try {
-                Transform transform = TransformBuilder.create().fromTranslation(new Vector3(0.3, 0.0, 0.0));
+                Transform transform = TransformBuilder.create()
+                        .fromTranslation(new Vector3(0.3, 0.0, 0.0));  // 30 cm ahead
+
                 FreeFrame freeFrame = qiContext.getMapping().makeFreeFrame();
-                Frame robotFrame = qiContext.getActuation().robotFrame();
+                Frame robotFrame    = qiContext.getActuation().robotFrame();
                 freeFrame.update(robotFrame, transform, System.nanoTime());
                 Frame targetFrame = freeFrame.frame();
 
-                Say say = SayBuilder.with(qiContext).withText(getString(R.string.moving_forward)).build();
+                Say say = SayBuilder.with(qiContext)
+                        .withText(getString(R.string.moving_forward))
+                        .build();
                 say.run();
 
                 GoTo goTo = GoToBuilder.with(qiContext)
@@ -126,18 +121,23 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
      */
     private void turnLeft() {
         if (qiContext == null) return;
+
+        // Real Pepper
         executor.execute(() -> {
             try {
-                double angle = Math.PI / 2; // 90° left
-                Quaternion quaternion = getRotationQuaternion(angle);
+                double angle = Math.PI / 2;                              // 90° left
+                Quaternion q  = getRotationQuaternion(angle);
 
-                Transform transform = TransformBuilder.create().fromRotation(quaternion);
+                Transform transform = TransformBuilder.create().fromRotation(q);
+
                 FreeFrame freeFrame = qiContext.getMapping().makeFreeFrame();
-                Frame robotFrame = qiContext.getActuation().robotFrame();
+                Frame robotFrame    = qiContext.getActuation().robotFrame();
                 freeFrame.update(robotFrame, transform, System.nanoTime());
                 Frame targetFrame = freeFrame.frame();
 
-                Say say = SayBuilder.with(qiContext).withText(getString(R.string.turning_left)).build();
+                Say say = SayBuilder.with(qiContext)
+                        .withText(getString(R.string.turning_left))
+                        .build();
                 say.run();
 
                 GoTo goTo = GoToBuilder.with(qiContext)
@@ -159,18 +159,23 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
      */
     private void turnRight() {
         if (qiContext == null) return;
+
+        // Real Pepper
         executor.execute(() -> {
             try {
-                double angle = -Math.PI / 2; // 90° right
-                Quaternion quaternion = getRotationQuaternion(angle);
+                double angle = -Math.PI / 2;                             // 90° right
+                Quaternion q  = getRotationQuaternion(angle);
 
-                Transform transform = TransformBuilder.create().fromRotation(quaternion);
+                Transform transform = TransformBuilder.create().fromRotation(q);
+
                 FreeFrame freeFrame = qiContext.getMapping().makeFreeFrame();
-                Frame robotFrame = qiContext.getActuation().robotFrame();
+                Frame robotFrame    = qiContext.getActuation().robotFrame();
                 freeFrame.update(robotFrame, transform, System.nanoTime());
                 Frame targetFrame = freeFrame.frame();
 
-                Say say = SayBuilder.with(qiContext).withText(getString(R.string.turning_right)).build();
+                Say say = SayBuilder.with(qiContext)
+                        .withText(getString(R.string.turning_right))
+                        .build();
                 say.run();
 
                 GoTo goTo = GoToBuilder.with(qiContext)
@@ -189,11 +194,13 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
 
     private Quaternion getRotationQuaternion(double angle) {
         Vector3 axis = new Vector3(0.0, 1.0, 0.0);
-        double w = Math.cos(angle / 2);
-        double x = axis.getX() * Math.sin(angle / 2);
-        double y = axis.getY() * Math.sin(angle / 2);
-        double z = axis.getZ() * Math.sin(angle / 2);
-        return new Quaternion(x, y, z, w);
+        double half  = angle / 2.0;
+        return new Quaternion(
+                axis.getX() * Math.sin(half),
+                axis.getY() * Math.sin(half),
+                axis.getZ() * Math.sin(half),
+                Math.cos(half)
+        );
     }
 
     /**
@@ -202,6 +209,8 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
     private void speakMessage() {
         String message = speakInput.getText().toString();
         if (qiContext == null) return;
+
+        // Run speech on a background thread to avoid crashing
         executor.execute(() -> {
             try {
                 Say say = SayBuilder.with(qiContext).withText(message).build();
@@ -265,4 +274,56 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
     }
 
     // Static class to avoid memory leaks
-    private static class Voice
+    private static class VoiceCommandTask implements Runnable {
+        private final WeakReference<RobotCommandsActivity> activityRef;
+        private final QiContext qiContext;
+
+        VoiceCommandTask(RobotCommandsActivity activity, QiContext context) {
+            this.activityRef = new WeakReference<>(activity);
+            this.qiContext   = context;
+        }
+
+        @Override public void run() {
+            RobotCommandsActivity activity = activityRef.get();
+            if (activity == null) return;
+
+            try {
+                List<Phrase> phrases = Arrays.asList(
+                        new Phrase(activity.getString(R.string.voice_command_move_forward)),
+                        new Phrase(activity.getString(R.string.voice_command_turn_left)),
+                        new Phrase(activity.getString(R.string.voice_command_turn_right)),
+                        new Phrase(activity.getString(R.string.voice_command_say_hello))
+                );
+
+                PhraseSet phraseSet = PhraseSetBuilder.with(qiContext)
+                        .withPhrases(phrases)
+                        .build();
+
+                Listen listen = ListenBuilder.with(qiContext)
+                        .withPhraseSet(phraseSet)
+                        .build();
+
+                ListenResult result = listen.run();
+                String heardPhrase  = result.getHeardPhrase().getText().toLowerCase();
+
+                activity.runOnUiThread(() -> {
+                    switch (heardPhrase) {
+                        case "move forward": activity.moveForward(); break;
+                        case "turn left":    activity.turnLeft();   break;
+                        case "turn right":   activity.turnRight();  break;
+                        case "say hello":    activity.waveHand();   break;
+                        default:
+                            Say unknownSay = SayBuilder.with(activity.qiContext)
+                                    .withText(activity.getString(R.string.voice_command_not_understood))
+                                    .build();
+                            unknownSay.run();
+                            break;
+                    }
+                });
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+    }
+}
