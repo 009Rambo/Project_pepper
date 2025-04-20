@@ -2,6 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.pepperproject">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.RECORD_AUDIO"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -14,6 +17,10 @@
             android:exported="false" />
         <activity
             android:name=".CodingBasicActivity"
+            android:exported="false" />
+        <activity android:name=".BlockGameActivity"
+            android:exported="false" />
+        <activity android:name=".ChatWithVoiceActivity"
             android:exported="false" />
         <activity
             android:name=".MathPuzzlesActivity"

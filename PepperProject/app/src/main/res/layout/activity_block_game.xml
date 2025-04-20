@@ -1,14 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/layoutBlockGame"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="24dp"
+    android:gravity="center">
 
     <TextView
-        android:id="@+id/blockGameTextView"
+        android:id="@+id/blockQuestion"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/block_game_placeholder"
-        android:textSize="18sp"
-        android:layout_centerInParent="true" />
+        android:textSize="20sp"
+        android:layout_marginBottom="24dp" />
 
-</RelativeLayout>
+    <RadioGroup
+        android:id="@+id/answerGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <RadioButton
+            android:id="@+id/radioRepeat"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Repeat" />
+
+        <RadioButton
+            android:id="@+id/radioJump"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Jump" />
+
+        <RadioButton
+            android:id="@+id/radioStop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Stop" />
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/submitBlockAnswer"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:textSize="16sp"
+        android:backgroundTint="#FF9800"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="10dp" />
+</LinearLayout>

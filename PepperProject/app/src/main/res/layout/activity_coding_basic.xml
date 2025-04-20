@@ -77,4 +77,14 @@
         android:textColor="#FFFFFF"
         android:layout_marginTop="10dp" />
 
+    <Button
+        android:id="@+id/chatGptButton"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:text="Talk to ChatGPT"
+        android:textSize="16sp"
+        android:backgroundTint="#FF5722"
+        android:textColor="#FFFFFF"
+        android:layout_marginTop="10dp" />
+
 </LinearLayout>
