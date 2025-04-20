@@ -1,6 +1,7 @@
 package com.example.pepperproject;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Button;
 import android.widget.EditText;
 
@@ -38,10 +39,9 @@ import java.util.concurrent.Executors;
 public class RobotCommandsActivity extends RobotActivity implements RobotLifecycleCallbacks {
 
     private QiContext qiContext;
-    private Button moveForwardButton, turnLeftButton, turnRightButton, speakButton, voiceCommandButton, backRbButton;
+    private Button moveForwardButton, turnLeftButton, turnRightButton, speakButton, voiceCommandButton, backRbButton, danceButton;
     private EditText speakInput;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
-    private Button danceButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,17 +56,16 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
         speakButton = findViewById(R.id.speakButton);
         voiceCommandButton = findViewById(R.id.voiceCommandButton);
         speakInput = findViewById(R.id.speakInput);
+        danceButton = findViewById(R.id.danceButton);
+        backRbButton = findViewById(R.id.backRbButton);
 
         moveForwardButton.setOnClickListener(v -> moveForward());
         turnLeftButton.setOnClickListener(v -> turnLeft());
         turnRightButton.setOnClickListener(v -> turnRight());
         speakButton.setOnClickListener(v -> speakMessage());
         voiceCommandButton.setOnClickListener(v -> listenForCommands());
-        danceButton = findViewById(R.id.danceButton);
         danceButton.setOnClickListener(v -> makePepperDance());
-        Button backRbButton = findViewById(R.id.backRbButton);
         backRbButton.setOnClickListener(v -> finish());
-
     }
 
     @Override
@@ -88,107 +87,104 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
 
     @Override
     public void onRobotFocusRefused(String reason) {
+        Log.w("RobotCommandsActivity", "Robot focus refused: " + reason);
     }
 
+    /**
+     * Move Pepper 30 cm forward (Real Pepper).
+     */
     private void moveForward() {
-        if (qiContext != null) {
-            // Real Pepper
-            executor.execute(() -> {
-                try {
-                    Transform transform = TransformBuilder.create().fromTranslation(new Vector3(0.3, 0.0, 0.0));
-                    FreeFrame freeFrame = qiContext.getMapping().makeFreeFrame();
-                    Frame robotFrame = qiContext.getActuation().robotFrame();
-                    freeFrame.update(robotFrame, transform, System.nanoTime());
-                    Frame targetFrame = freeFrame.frame();
+        if (qiContext == null) return;
+        // Real Pepper execution
+        executor.execute(() -> {
+            try {
+                Transform transform = TransformBuilder.create().fromTranslation(new Vector3(0.3, 0.0, 0.0));
+                FreeFrame freeFrame = qiContext.getMapping().makeFreeFrame();
+                Frame robotFrame = qiContext.getActuation().robotFrame();
+                freeFrame.update(robotFrame, transform, System.nanoTime());
+                Frame targetFrame = freeFrame.frame();
 
-                    Say say = SayBuilder.with(qiContext).withText("Moving forward!").build();
-                    say.run();
+                Say say = SayBuilder.with(qiContext).withText(getString(R.string.moving_forward)).build();
+                say.run();
 
-                    GoTo goTo = GoToBuilder.with(qiContext)
-                            .withFrame(targetFrame)
-                            .build();
-                    goTo.run();
-                } catch (Exception e) {
-                    Say error = SayBuilder.with(qiContext)
-                            .withText("Oops! I can't move right now.")
-                            .build();
-                    error.run();
-                    e.printStackTrace();
-                }
-            });
-        } else {
-            // Fallback for emulator testing
-            android.util.Log.d("DEBUG", "Emulator fallback → moveForward()");
-            android.widget.Toast.makeText(this, "Simulated: Pepper would move forward", Toast.LENGTH_SHORT).show();
-        }
+                GoTo goTo = GoToBuilder.with(qiContext)
+                        .withFrame(targetFrame)
+                        .build();
+                goTo.run();
+            } catch (Exception e) {
+                Say error = SayBuilder.with(qiContext)
+                        .withText("Oops! I can't move right now.")
+                        .build();
+                error.run();
+                e.printStackTrace();
+            }
+        });
     }
 
+    /**
+     * Turn Pepper 90° to the left.
+     */
     private void turnLeft() {
-        if (qiContext != null) {
-            executor.execute(() -> {
-                try {
-                    // Move slightly forward and to the left
-                    Transform transform = TransformBuilder.create().fromTranslation(new Vector3(0.0, 0.0, 0.0))
-                            .fromRotation(getRotationQuaternion(Math.PI / 2)); // 90° left
+        if (qiContext == null) return;
+        executor.execute(() -> {
+            try {
+                double angle = Math.PI / 2; // 90° left
+                Quaternion quaternion = getRotationQuaternion(angle);
 
-                    FreeFrame freeFrame = qiContext.getMapping().makeFreeFrame();
-                    Frame robotFrame = qiContext.getActuation().robotFrame();
-                    freeFrame.update(robotFrame, transform, System.nanoTime());
-                    Frame targetFrame = freeFrame.frame();
+                Transform transform = TransformBuilder.create().fromRotation(quaternion);
+                FreeFrame freeFrame = qiContext.getMapping().makeFreeFrame();
+                Frame robotFrame = qiContext.getActuation().robotFrame();
+                freeFrame.update(robotFrame, transform, System.nanoTime());
+                Frame targetFrame = freeFrame.frame();
 
-                    Say say = SayBuilder.with(qiContext).withText("Turning left!").build();
-                    say.run();
+                Say say = SayBuilder.with(qiContext).withText(getString(R.string.turning_left)).build();
+                say.run();
 
-                    GoTo goTo = GoToBuilder.with(qiContext)
-                            .withFrame(targetFrame)
-                            .build();
-                    goTo.run();
-                } catch (Exception e) {
-                    Say error = SayBuilder.with(qiContext)
-                            .withText("Oops! I can't turn left now.")
-                            .build();
-                    error.run();
-                    e.printStackTrace();
-                }
-            });
-        } else {
-            android.util.Log.d("DEBUG", "Emulator fallback → turnLeft()");
-            android.widget.Toast.makeText(this, "Simulated: Pepper would turn left", Toast.LENGTH_SHORT).show();
-        }
+                GoTo goTo = GoToBuilder.with(qiContext)
+                        .withFrame(targetFrame)
+                        .build();
+                goTo.run();
+            } catch (Exception e) {
+                Say error = SayBuilder.with(qiContext)
+                        .withText("Oops! I can't turn left now.")
+                        .build();
+                error.run();
+                e.printStackTrace();
+            }
+        });
     }
 
+    /**
+     * Turn Pepper 90° to the right.
+     */
     private void turnRight() {
-        if (qiContext != null) {
-            executor.execute(() -> {
-                try {
-                    // Move slightly forward and to the right
-                    Transform transform = TransformBuilder.create().fromTranslation(new Vector3(0.0, 0.0, 0.0))
-                            .fromRotation(getRotationQuaternion(-Math.PI / 2)); // 90° right
+        if (qiContext == null) return;
+        executor.execute(() -> {
+            try {
+                double angle = -Math.PI / 2; // 90° right
+                Quaternion quaternion = getRotationQuaternion(angle);
 
-                    FreeFrame freeFrame = qiContext.getMapping().makeFreeFrame();
-                    Frame robotFrame = qiContext.getActuation().robotFrame();
-                    freeFrame.update(robotFrame, transform, System.nanoTime());
-                    Frame targetFrame = freeFrame.frame();
+                Transform transform = TransformBuilder.create().fromRotation(quaternion);
+                FreeFrame freeFrame = qiContext.getMapping().makeFreeFrame();
+                Frame robotFrame = qiContext.getActuation().robotFrame();
+                freeFrame.update(robotFrame, transform, System.nanoTime());
+                Frame targetFrame = freeFrame.frame();
 
-                    Say say = SayBuilder.with(qiContext).withText("Turning right!").build();
-                    say.run();
+                Say say = SayBuilder.with(qiContext).withText(getString(R.string.turning_right)).build();
+                say.run();
 
-                    GoTo goTo = GoToBuilder.with(qiContext)
-                            .withFrame(targetFrame)
-                            .build();
-                    goTo.run();
-                } catch (Exception e) {
-                    Say error = SayBuilder.with(qiContext)
-                            .withText("Oops! I can't turn right now.")
-                            .build();
-                    error.run();
-                    e.printStackTrace();
-                }
-            });
-        } else {
-            android.util.Log.d("DEBUG", "Emulator fallback → turnRight()");
-            android.widget.Toast.makeText(this, "Simulated: Pepper would turn right", Toast.LENGTH_SHORT).show();
-        }
+                GoTo goTo = GoToBuilder.with(qiContext)
+                        .withFrame(targetFrame)
+                        .build();
+                goTo.run();
+            } catch (Exception e) {
+                Say error = SayBuilder.with(qiContext)
+                        .withText("Oops! I can't turn right now.")
+                        .build();
+                error.run();
+                e.printStackTrace();
+            }
+        });
     }
 
     private Quaternion getRotationQuaternion(double angle) {
@@ -200,135 +196,73 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
         return new Quaternion(x, y, z, w);
     }
 
+    /**
+     * Run speech in a background thread to avoid blocking the UI.
+     */
     private void speakMessage() {
         String message = speakInput.getText().toString();
-
-        if (qiContext != null) {
-            // Run speech on a background thread to avoid crashing
-            executor.execute(() -> {
+        if (qiContext == null) return;
+        executor.execute(() -> {
+            try {
                 Say say = SayBuilder.with(qiContext).withText(message).build();
                 say.run();
-            });
-        } else {
-            android.util.Log.d("DEBUG", "Emulator fallback → " + message);
-            android.widget.Toast.makeText(this, "Pepper says: " + message, Toast.LENGTH_SHORT).show();
-        }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void listenForCommands() {
         executor.execute(new VoiceCommandTask(this, qiContext));
     }
 
-    // dance feature
-
+    /**
+     * Play a preset dance animation.
+     */
     private void makePepperDance() {
-        if (qiContext != null) {
-            try {
-                Animation animation = AnimationBuilder.with(qiContext)
-                        .withResources(R.raw.dance_b005)
-                        .build();
+        if (qiContext == null) return;
+        try {
+            Animation animation = AnimationBuilder.with(qiContext)
+                    .withResources(R.raw.dance_b005)
+                    .build();
 
-                Animate animate = AnimateBuilder.with(qiContext)
-                        .withAnimation(animation)
-                        .build();
+            Animate animate = AnimateBuilder.with(qiContext)
+                    .withAnimation(animation)
+                    .build();
 
-                animate.run();
+            animate.run();
 
-                Say say = SayBuilder.with(qiContext)
-                        .withText("Time to dance!")
-                        .build();
-                say.run();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Say say = SayBuilder.with(qiContext)
+                    .withText("Time to dance!")
+                    .build();
+            say.run();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     // wave hand
-
     private void waveHand() {
-        if (qiContext != null) {
-            try {
-                Animation animation = AnimationBuilder.with(qiContext)
-                        .withResources(R.raw.hello_a001)
-                        .build();
+        if (qiContext == null) return;
+        try {
+            Animation animation = AnimationBuilder.with(qiContext)
+                    .withResources(R.raw.hello_a001)
+                    .build();
 
-                Animate animate = AnimateBuilder.with(qiContext)
-                        .withAnimation(animation)
-                        .build();
+            Animate animate = AnimateBuilder.with(qiContext)
+                    .withAnimation(animation)
+                    .build();
 
-                animate.run();
+            animate.run();
 
-                Say say = SayBuilder.with(qiContext)
-                        .withText("Hello! I'm Pepper!")
-                        .build();
-                say.run();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            Say say = SayBuilder.with(qiContext)
+                    .withText(getString(R.string.hello_im_pepper))
+                    .build();
+            say.run();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
     // Static class to avoid memory leaks
-    private static class VoiceCommandTask implements Runnable {
-        private final WeakReference<RobotCommandsActivity> activityRef;
-        private final QiContext qiContext;
-
-        VoiceCommandTask(RobotCommandsActivity activity, QiContext context) {
-            this.activityRef = new WeakReference<>(activity);
-            this.qiContext = context;
-        }
-
-        @Override
-        public void run() {
-            try {
-                List<Phrase> phrases = Arrays.asList(
-                        new Phrase("move forward"),
-                        new Phrase("turn left"),
-                        new Phrase("turn right"),
-                        new Phrase("say hello"));
-
-                PhraseSet phraseSet = PhraseSetBuilder.with(qiContext)
-                        .withPhrases(phrases)
-                        .build();
-
-                Listen listen = ListenBuilder.with(qiContext)
-                        .withPhraseSet(phraseSet)
-                        .build();
-
-                ListenResult result = listen.run();
-                String heardPhrase = result.getHeardPhrase().getText().toLowerCase();
-
-                RobotCommandsActivity activity = activityRef.get();
-                if (activity != null && activity.qiContext != null) {
-                    activity.runOnUiThread(() -> {
-                        switch (heardPhrase) {
-                            case "move forward":
-                                activity.moveForward();
-                                break;
-                            case "turn left":
-                                activity.turnLeft();
-                                break;
-                            case "turn right":
-                                activity.turnRight();
-                                break;
-                            case "say hello":
-                                activity.waveHand(); // Call new method
-                                break;
-
-                            default:
-                                Say unknownSay = SayBuilder.with(activity.qiContext)
-                                        .withText("Sorry, I didn't understand.")
-                                        .build();
-                                unknownSay.run();
-                                break;
-                        }
-                    });
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-    }
-}
+    private static class Voice

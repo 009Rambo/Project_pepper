@@ -90,14 +90,20 @@ public class CodingBasicActivity extends RobotActivity implements RobotLifecycle
 
     // Generates a new question and sets it up in the UI
     private void generateNewQuestion() {
-        // Predefined questions and answers
+        // Get questions and answers from string resources
         String[] questions = {
-            "What comes next in the pattern? 2, 4, 6, ?",
-            "Which block repeats an action in coding? (loop, jump, stop)",
-            "Which number is bigger: 3 or 7?",
-            "What does an 'if' statement do? (choose, repeat, stop)"
+            getString(R.string.coding_question_1),
+            getString(R.string.coding_question_2),
+            getString(R.string.coding_question_3),
+            getString(R.string.coding_question_4)
         };
-        String[] answers = {"8", "loop", "7", "choose"};  // Correct answers for the above questions
+        
+        String[] answers = {
+            getString(R.string.coding_answer_1),
+            getString(R.string.coding_answer_2),
+            getString(R.string.coding_answer_3),
+            getString(R.string.coding_answer_4)
+        };
 
         // Select a random question and corresponding answer
         int index = random.nextInt(questions.length);
@@ -118,11 +124,11 @@ public class CodingBasicActivity extends RobotActivity implements RobotLifecycle
 
     // Checks the user's answer and provides feedback
     private void checkAnswer() {
-        String userAnswer = answerEditText.getText().toString().trim().toLowerCase();  // Get and clean the user's answer
+        String userAnswer = answerEditText.getText().toString().trim().toLowerCase();
 
         // If the answer field is empty, show a toast message and return
         if (TextUtils.isEmpty(userAnswer)) {
-            Toast.makeText(this, "Please enter an answer", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.please_enter_answer), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -130,13 +136,13 @@ public class CodingBasicActivity extends RobotActivity implements RobotLifecycle
         boolean isCorrect = userAnswer.equals(currentAnswer.toLowerCase());
 
         // Set the feedback text and color based on whether the answer is correct
-        feedbackTextView.setText(isCorrect ? "Yay! You got it right! 🎉" : "Oops! The right answer is: " + currentAnswer);
+        feedbackTextView.setText(isCorrect ? getString(R.string.correct_feedback) : getString(R.string.wrong_feedback, currentAnswer));
         feedbackTextView.setTextColor(getResources().getColor(isCorrect ? android.R.color.holo_green_dark : android.R.color.holo_red_dark));
         feedbackTextView.setVisibility(View.VISIBLE);
 
         // If the QiContext is available, speak the feedback text using Pepper
         if (qiContext != null) {
-            currentTask = new CodingTask(isCorrect ? "Yay! You got it right! Great job!" : "Oops! The right answer is " + currentAnswer + ". Let's try another one!");
+            currentTask = new CodingTask(isCorrect ? getString(R.string.correct_speech) : getString(R.string.wrong_speech, currentAnswer));
             currentTask.execute();  // Execute the task to speak the feedback
 
             // If the answer is correct, play an animation on the robot
