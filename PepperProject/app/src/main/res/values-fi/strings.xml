@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PepperProject</string>
+    
+    <!-- Main Activity -->
+    <string name="app_title">Pepperin Oppimisseikkailu</string>
+    <string name="robot_description">Pepper-robotti</string>
+    <string name="greeting_text">Mitä haluaisit oppia tänään?</string>
+    <string name="coding_basics_button">Ohjelmoinnin perusteet</string>
+    <string name="robot_commands_button">Robotin komennot</string>
+    <string name="math_topics_button">Matematiikan aiheet</string>
+    <string name="fun_facts_button">Hauskoja faktoja</string>
+    <string name="status_ready">Tila: Valmis</string>
+    <string name="footer_text">Pepperin Oppimisseikkailu 2025</string>
+    <string name="robot_greeting">Hei siellä! Tervetuloa Pepperin Oppimisseikkailuun! Mitä haluaisit oppia tänään?</string>
+    <string name="status_connected">Yhdistetty robottiin</string>
+    <string name="status_disconnected">Yhteys robottiin katkaistu</string>
+    <string name="status_connection_refused">Yhteys hylätty: %1$s</string>
+    <string name="status_starting_topic">Aloitetaan %1$s...</string>
+    <string name="status_error_robot">Virhe: Robottiin ei ole yhteyttä</string>
+    <string name="status_completed_topic">%1$s suoritettu!</string>
+    <string name="status_ready_for_next_topic">Valmis seuraavaan aiheeseen</string>
+    <string name="status_interaction_failed">Vuorovaikutus epäonnistui</string>
+    <string name="status_preparing_topic">Valmistellaan %1$s opetusta...</string>
+    <string name="coding_basics_content">Ohjelmointi on kuin ohjeiden antamista tietokoneelle. Opetellaan kirjoittamaan yksinkertaista koodia!</string>
+    <string name="robot_commands_content">Minun kaltaiseni robotit ymmärtävät erityisiä komentoja. Näytän sinulle, miten robotteja ohjataan!</string>
+    <string name="math_puzzles_content">Matematiikka voi olla todella hauskaa pulmien avulla! Ratkaistaan niitä yhdessä!</string>
+    
+    <!-- Math Topics Activity -->
+    <string name="math_topics_title">Matematiikan aiheet</string>
+    <string name="math_topics_subtitle">Valitse aihe opiskeltavaksi tai kokeile matikkapulmia</string>
+    <string name="addition_button">Yhteenlasku (+)</string>
+    <string name="subtraction_button">Vähennyslasku (-)</string>
+    <string name="multiplication_button">Kertolasku (×)</string>
+    <string name="division_button">Jakolasku (÷)</string>
+    <string name="math_puzzles_button">Matikkapulmat</string>
+    <string name="back_button">Takaisin</string>
+    <string name="topic_coming_soon">%1$s aihe tulossa pian!</string>
+    <string name="explaining_addition">Selitetään yhteenlaskua...</string>
+    <string name="addition_explanation">Yhteenlasku tarkoittaa lukujen yhdistämistä. Esimerkiksi, jos sinulla on 2 omenaa ja annan sinulle 3 lisää, sinulla on nyt 2 plus 3, eli yhteensä 5 omenaa. Plus-merkki tarkoittaa, että laskemme luvut yhteen.</string>
+    <string name="math_topics_welcome">Tervetuloa Matematiikan aiheisiin! Valitse aihe opiskeltavaksi tai kokeile matikkapulmia.</string>
+    <string name="error_welcome_message">Virhe tervetuloviestissä: %1$s</string>
+    
+    <!-- New Math Explanations -->
+    <string name="explaining_subtraction">Selitetään vähennyslaskua...</string>
+    <string name="subtraction_explanation">Vähennyslasku tarkoittaa lukujen ottamista pois. Esimerkiksi, jos sinulla on 5 karkkia ja syöt 2 niistä, sinulla on nyt 5 miinus 2, eli 3 karkkia jäljellä. Miinus-merkki tarkoittaa, että otamme pois tai vähennämme lukuja.</string>
+    
+    <string name="explaining_multiplication">Selitetään kertolaskua...</string>
+    <string name="multiplication_explanation">Kertolasku on nopeampi tapa laskea yhteen sama luku useita kertoja. Esimerkiksi, 3 kertaa 4 tarkoittaa 3:n lisäämistä neljä kertaa: 3 + 3 + 3 + 3 = 12. Jos sinulla on 3 pussia, joissa kussakin on 4 marmorikuulaa, sinulla on 3 kertaa 4, eli yhteensä 12 marmorikuulaa.</string>
+    
+    <string name="explaining_division">Selitetään jakolaskua...</string>
+    <string name="division_explanation">Jakolasku on lukujen jakamista yhtä suuriin ryhmiin. Esimerkiksi, jos sinulla on 8 keksiä ja haluat jakaa ne tasan 2 ystävän kesken, kumpikin ystävä saa 8 jaettuna 2:lla, eli 4 keksiä. Jakomerkki tarkoittaa, että jaamme luvut yhtä suuriin osiin.</string>
+    
+    <!-- Math Operator Pronunciation -->
+    <string name="operator_plus">plus</string>
+    <string name="operator_minus">miinus</string>
+    <string name="operator_multiply">kertaa</string>
+    <string name="operator_divide">jaettuna</string>
+    
+    <!-- Coding Basic Activity -->
+    <string name="coding_basics_title">Ohjelmoinnin perusteet</string>
+    <string name="question_placeholder">Kysymys tulee tähän</string>
+    <string name="enter_answer_coding">Kirjoita vastauksesi</string>
+    <string name="submit_button">Lähetä</string>
+    <string name="next_question_button">Seuraava kysymys</string>
+    <string name="back_to_main_button">Takaisin päävalikkoon</string>
+    <string name="play_block_game_button">Pelaa palikkapeliä</string>
+    <string name="please_enter_answer">Ole hyvä ja anna vastaus</string>
+    <string name="correct_feedback">Jee! Vastasit oikein! 🎉</string>
+    <string name="wrong_feedback">Hups! Oikea vastaus on: %1$s</string>
+    <string name="correct_speech">Jee! Vastasit oikein! Hienoa työtä!</string>
+    <string name="wrong_speech">Hups! Oikea vastaus on %1$s. Kokeillaan toista!</string>
+    
+    <!-- Coding Questions -->
+    <string name="coding_question_1">Mikä tulee seuraavaksi sarjassa? 2, 4, 6, ?</string>
+    <string name="coding_question_2">Mikä lohko toistaa toiminnon ohjelmoinnissa? (silmukka, hyppy, pysäytys)</string>
+    <string name="coding_question_3">Kumpi numero on suurempi: 3 vai 7?</string>
+    <string name="coding_question_4">Mitä \'if\'-lause tekee? (valitsee, toistaa, pysäyttää)</string>
+    <string name="coding_answer_1">8</string>
+    <string name="coding_answer_2">silmukka</string>
+    <string name="coding_answer_3">7</string>
+    <string name="coding_answer_4">valitsee</string>
+    
+    <!-- Block Game Activity -->
+    <string name="block_game_title">Palikkapeli</string>
+    <string name="block_game_placeholder">Palikkapeli tulee tähän!</string>
+    
+    <!-- Math Puzzles Activity -->
+    <string name="math_puzzles_title">Matikkapulmia</string>
+    <string name="submit_answer">Lähetä</string>
+    <string name="voice_input">Ääni</string>
+    <string name="enter_answer_hint">Kirjoita vastauksesi</string>
+    <string name="next_puzzle">Seuraava pulma</string>
+    <string name="back_to_topics">Takaisin aiheisiin</string>
+    <string name="correct_count">Oikeita vastauksia: </string>
+    <string name="total_attempts">Yrityksiä yhteensä: </string>
+    <string name="statistics_title">Tilastot</string>
+    <string name="puzzle_question_format">Paljonko on %1$d %2$s %3$d?</string>
+    <string name="correct_feedback_puzzle">Oikein! Hienosti tehty!</string>
+    <string name="wrong_feedback_puzzle">Ei ihan. Oikea vastaus on %1$d</string>
+    <string name="wrong_answer_with_correct">Ei ihan. Yritä uudelleen! Oikea vastaus on %1$d. Kokeillaan toista!</string>
+    <string name="please_enter_valid_number">Syötä kelvollinen numero</string>
+    <string name="level_up_medium">Taso nousi! Keskitason pulmia</string>
+    <string name="level_up_hard">Taso nousi! Vaikean tason pulmia</string>
+    
+    <!-- Math Puzzle Dialog -->
+    <string name="dialog_title">Miten matikkapulmat toimivat</string>
+    <string name="dialog_description">Pulmat alkavat helppoina ja muuttuvat vähitellen haastavammiksi, kun ratkaiset niitä oikein.</string>
+    <string name="easy_level">• Helppo taso: Yksinkertaista yhteen- ja vähennyslaskua</string>
+    <string name="medium_level">• Keskitaso: Monimutkaisempia laskutoimituksia</string>
+    <string name="hard_level">• Vaikea taso: Haastavia matemaattisia ongelmia</string>
+    <string name="level_up_info">Etenet seuraavalle tasolle ratkaistuasi 3 pulmaa oikein kullakin vaikeustasolla!</string>
+    <string name="start_puzzles">Aloitetaan!</string>
+    
+    <!-- Sample Puzzle Question -->
+    <string name="sample_question">Paljonko on 5 + 3?</string>
+    
+    <!-- Robot speech -->
+    <string name="intro_message">Ratkaistaan matikkapulmia! Aloitan helpoilla ja teen niistä vaikeampia kun edistyt.</string>
+    <string name="correct_answer">Oikein! Hienosti tehty!</string>
+    <string name="wrong_answer">Ei ihan. Yritä uudelleen!</string>
+    <string name="show_correct_answer">Oikea vastaus on %1$d.</string>
+    <string name="next_puzzle_prompt">Kokeillaan toista pulmaa!</string>
+    <string name="difficulty_increased">Hienoa työtä! Teen pulmista nyt hieman vaikeampia.</string>
+    
+    <!-- Fun Facts -->
+    <string name="fun_fact_1">Tiesitkö, että minun kaltaiseni robotit voivat tunnistaa ihmisten tunteita?</string>
+    <string name="fun_fact_2">Robotteja käytetään tutkimaan kaukaisia planeettoja, kuten Marsia.</string>
+    <string name="fun_fact_3">Jotkut robotit osaavat taittaa pyykkiä ja jopa soittaa soittimia!</string>
+    <string name="fun_fact">Hauska fakta: %1$s</string>
+    
+    <!-- Robot Commands Activity -->
+    <string name="robot_command_center">Pepper-robotin komentokeskus</string>
+    <string name="move_forward">Liiku eteenpäin</string>
+    <string name="turn_left">Käänny vasemmalle</string>
+    <string name="turn_right">Käänny oikealle</string>
+    <string name="type_to_say">Kirjoita jotain sanottavaa...</string>
+    <string name="speak">Puhu</string>
+    <string name="listen_voice_command">Kuuntele äänikomentoa</string>
+    <string name="moving_forward">Liikun eteenpäin!</string>
+    <string name="turning_left">Käännyn vasemmalle!</string>
+    <string name="turning_right">Käännyn oikealle!</string>
+    <string name="hello_im_pepper">Hei! Olen Pepper!</string>
+    <string name="voice_command_move_forward">liiku eteenpäin</string>
+    <string name="voice_command_turn_left">käänny vasemmalle</string>
+    <string name="voice_command_turn_right">käänny oikealle</string>
+    <string name="voice_command_say_hello">sano hei</string>
+    <string name="voice_command_not_understood">Anteeksi, en ymmärtänyt.</string>
+</resources>

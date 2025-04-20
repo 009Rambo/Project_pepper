@@ -92,7 +92,7 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
             freeFrame.update(robotFrame, transform, System.nanoTime());
             Frame targetFrame = freeFrame.frame();
 
-            Say say = SayBuilder.with(qiContext).withText("Moving forward!").build();
+            Say say = SayBuilder.with(qiContext).withText(getString(R.string.moving_forward)).build();
             say.run();
 
             GoTo goTo = GoToBuilder.with(qiContext)
@@ -113,7 +113,7 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
             freeFrame.update(robotFrame, transform, System.nanoTime());
             Frame targetFrame = freeFrame.frame();
 
-            Say say = SayBuilder.with(qiContext).withText("Turning left!").build();
+            Say say = SayBuilder.with(qiContext).withText(getString(R.string.turning_left)).build();
             say.run();
 
             GoTo goTo = GoToBuilder.with(qiContext)
@@ -134,7 +134,7 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
             freeFrame.update(robotFrame, transform, System.nanoTime());
             Frame targetFrame = freeFrame.frame();
 
-            Say say = SayBuilder.with(qiContext).withText("Turning right!").build();
+            Say say = SayBuilder.with(qiContext).withText(getString(R.string.turning_right)).build();
             say.run();
 
             GoTo goTo = GoToBuilder.with(qiContext)
@@ -156,8 +156,19 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
     private void speakMessage() {
         if (qiContext != null) {
             String message = speakInput.getText().toString();
-            Say say = SayBuilder.with(qiContext).withText(message).build();
-            say.run();
+            
+            // Run speech in a background thread to avoid blocking the UI
+            executor.execute(() -> {
+                try {
+                    Say say = SayBuilder.with(qiContext).withText(message).build();
+                    say.run();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    runOnUiThread(() -> {
+                        // Show error message if needed
+                    });
+                }
+            });
         }
     }
 
@@ -181,7 +192,7 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
                 animate.run();
 
                 Say say = SayBuilder.with(qiContext)
-                        .withText("Hello! I'm Pepper!")
+                        .withText(getString(R.string.hello_im_pepper))
                         .build();
                 say.run();
             } catch (Exception e) {
@@ -202,12 +213,15 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
 
         @Override
         public void run() {
+            RobotCommandsActivity activity = activityRef.get();
+            if (activity == null) return;
+
             try {
                 List<Phrase> phrases = Arrays.asList(
-                        new Phrase("move forward"),
-                        new Phrase("turn left"),
-                        new Phrase("turn right"),
-                        new Phrase("say hello"));
+                        new Phrase(activity.getString(R.string.voice_command_move_forward)),
+                        new Phrase(activity.getString(R.string.voice_command_turn_left)),
+                        new Phrase(activity.getString(R.string.voice_command_turn_right)),
+                        new Phrase(activity.getString(R.string.voice_command_say_hello)));
 
                 PhraseSet phraseSet = PhraseSetBuilder.with(qiContext)
                         .withPhrases(phrases)
@@ -220,7 +234,6 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
                 ListenResult result = listen.run();
                 String heardPhrase = result.getHeardPhrase().getText().toLowerCase();
 
-                RobotCommandsActivity activity = activityRef.get();
                 if (activity != null && activity.qiContext != null) {
                     activity.runOnUiThread(() -> {
                         switch (heardPhrase) {
@@ -239,7 +252,7 @@ public class RobotCommandsActivity extends RobotActivity implements RobotLifecyc
 
                             default:
                                 Say unknownSay = SayBuilder.with(activity.qiContext)
-                                        .withText("Sorry, I didn't understand.")
+                                        .withText(activity.getString(R.string.voice_command_not_understood))
                                         .build();
                                 unknownSay.run();
                                 break;

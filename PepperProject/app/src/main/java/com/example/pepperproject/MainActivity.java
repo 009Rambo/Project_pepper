@@ -57,19 +57,19 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
     private void setupButtonListeners() {
         codingBasicsButton.setOnClickListener(v -> {
             if (qiContext != null) {
-                updateStatus("Starting Coding Basics...");
-                startLearningTopic("Coding Basics", CodingBasicActivity.class);
+                updateStatus(getString(R.string.status_starting_topic, getString(R.string.coding_basics_button)));
+                startLearningTopic(getString(R.string.coding_basics_button), CodingBasicActivity.class);
             } else {
-                updateStatus("Error: Robot not connected");
+                updateStatus(getString(R.string.status_error_robot));
             }
         });
 
         robotCommandsButton.setOnClickListener(v -> {
             if (qiContext != null) {
-                updateStatus("Starting Robot Commands...");
-                startLearningTopic("Robot Commands", RobotCommandsActivity.class);
+                updateStatus(getString(R.string.status_starting_topic, getString(R.string.robot_commands_button)));
+                startLearningTopic(getString(R.string.robot_commands_button), RobotCommandsActivity.class);
             } else {
-                updateStatus("Error: Robot not connected");
+                updateStatus(getString(R.string.status_error_robot));
             }
         });
         
@@ -80,22 +80,22 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
                 startLearningTopic("Math Puzzles", MathPuzzlesActivity.class);
                  */
               
-                updateStatus("Starting Math Topics...");
+                updateStatus(getString(R.string.status_starting_topic, getString(R.string.math_topics_button)));
                 // Start the MathTopicsActivity
                 Intent intent = new Intent(MainActivity.this, MathTopicsActivity.class);
                 startActivity(intent);
 
             } else {
-                updateStatus("Error: Robot not connected");
+                updateStatus(getString(R.string.status_error_robot));
             }
         });
 
         funFactsButton.setOnClickListener(v -> {
             if (qiContext != null) {
-                updateStatus("Starting Fun Facts...");
-                startLearningTopic("Fun Facts", null);
+                updateStatus(getString(R.string.status_starting_topic, getString(R.string.fun_facts_button)));
+                startLearningTopic(getString(R.string.fun_facts_button), null);
             } else {
-                updateStatus("Error: Robot not connected");
+                updateStatus(getString(R.string.status_error_robot));
             }
         });
     }
@@ -164,9 +164,9 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
             setButtonsEnabled(true);
 
             if (success) {
-                updateStatus("Ready for next topic");
+                updateStatus(getString(R.string.status_ready_for_next_topic));
             } else {
-                updateStatus("Interaction failed");
+                updateStatus(getString(R.string.status_interaction_failed));
             }
 
             // Clear the current task reference
@@ -183,44 +183,32 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
     private void handleLearningTopic(String topic) {
         try {
             // Common introduction for any topic
-            updateTaskProgress("Preparing to teach " + topic + "...");
-
-            // Create a say action with topic-specific greeting
-        //    String greeting = "Let's learn about " + topic + "! This is going to be fun!";
-        //    Say say = SayBuilder.with(qiContext)
-        //            .withText(greeting)
-        //            .build();
-
-            // Run the say action
-        //    updateTaskProgress("Pepper is speaking...");
-        //    say.run();
+            updateTaskProgress(getString(R.string.status_preparing_topic, topic));
 
             // Topic-specific content and animations would go here
-            // For now, just a placeholder with different messages per topic
             String topicContent = "";
 
-            switch (topic) {
-                case "Coding Basics":
-                    topicContent = "Coding is like giving instructions to a computer. Let's learn how to write simple code!";
-                    break;
-                case "Robot Commands":
-                    topicContent = "Robots like me understand special commands. Let me show you how to control robots!";
-                    break;
-                case "Math Puzzles":
-                    topicContent = "Math can be really fun with puzzles! Let's solve some together!";
-                    break;
-                case "Fun Facts":
-                    String[] funFacts = {
-                            "The word 'robot' comes from a Czech word 'robota,' meaning forced labor.\n",
-                                    " The first robot was created in 1921, and it was called 'R.U.R.'—short for Rossum’s Universal Robots. It was part of a play by Karel Čapek.\n",
-                                    " Pepper is capable of understanding and responding to human emotions!\n",
-                                    " Robots are being used to explore distant planets, like Mars.\n",
-                                    " Some robots can fold laundry and even play musical instruments!"
-                    };
-                    // Generate a random index for the array
-                    int randomIndex = (int) (Math.random() * funFacts.length);
-                    topicContent = funFacts[randomIndex];
-                    break;
+            // Käytetään suoraan merkkijonojen vertailua
+            String codingBasics = getString(R.string.coding_basics_button);
+            String robotCommands = getString(R.string.robot_commands_button);
+            String mathTopics = getString(R.string.math_topics_button);
+            String funFacts = getString(R.string.fun_facts_button);
+
+            if (topic.equals(codingBasics)) {
+                topicContent = getString(R.string.coding_basics_content);
+            } else if (topic.equals(robotCommands)) {
+                topicContent = getString(R.string.robot_commands_content);
+            } else if (topic.equals(mathTopics)) {
+                topicContent = getString(R.string.math_puzzles_content);
+            } else if (topic.equals(funFacts)) {
+                String[] funFactsArray = {
+                        getString(R.string.fun_fact_1),
+                        getString(R.string.fun_fact_2),
+                        getString(R.string.fun_fact_3)
+                };
+                // Generate a random index for the array
+                int randomIndex = (int) (Math.random() * funFactsArray.length);
+                topicContent = funFactsArray[randomIndex];
             }
 
             // Say the topic content
@@ -256,7 +244,7 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
         //    conclusion.run();
 
             Log.i(TAG, "Learning topic completed: " + topic);
-            updateTaskProgress("Completed " + topic + "!");
+            updateTaskProgress(getString(R.string.status_completed_topic, topic));
         } catch (Exception e) {
             Log.e(TAG, "Error during learning topic", e);
             throw e;
@@ -280,7 +268,7 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
     @Override
     public void onRobotFocusGained(QiContext qiContext) {
         this.qiContext = qiContext;
-        updateStatus("Connected to robot");
+        updateStatus(getString(R.string.status_connected));
         Log.i(TAG, "Robot focus gained. You can now interact with the robot.");
 
         // Greet the user when the robot connection is established
@@ -296,7 +284,7 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
 
                 // Create and run the greeting
                 Say greeting = SayBuilder.with(qiContext)
-                        .withText("Hello there! Welcome to Pepper's Learning Adventure! What would you like to learn today?")
+                        .withText(getString(R.string.robot_greeting))
                         .build();
                 greeting.run();
             } catch (Exception e) {
@@ -312,13 +300,13 @@ public class MainActivity extends RobotActivity implements RobotLifecycleCallbac
             animate.removeAllOnStartedListeners();
         }
         qiContext = null;
-        updateStatus("Disconnected from robot");
+        updateStatus(getString(R.string.status_disconnected));
         Log.i(TAG, "Robot focus lost.");
     }
 
     @Override
     public void onRobotFocusRefused(String reason) {
-        updateStatus("Connection refused: " + reason);
+        updateStatus(getString(R.string.status_connection_refused, reason));
         Log.e(TAG, "Robot focus refused: " + reason);
     }
 }

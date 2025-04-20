@@ -55,6 +55,7 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
     private Random random = new Random();
     private MathPuzzleTask currentTask;
     private boolean explanationShown = false;
+    private boolean introductionShown = false;
 
     // Puzzle difficulty levels
     private enum Difficulty {
@@ -78,9 +79,6 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
 
         // Show explanation dialog
         showExplanationDialog();
-
-        // Generate first puzzle
-        generateNewPuzzle();
     }
 
     private void showExplanationDialog() {
@@ -110,9 +108,15 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
             
             // Have Pepper introduce the puzzles if available
             if (qiContext != null) {
-                currentTask = new MathPuzzleTask("Let's solve some math puzzles! I'll start with easy ones and make them harder as you progress.");
+                currentTask = new MathPuzzleTask(getString(R.string.intro_message));
                 currentTask.execute();
             }
+            
+            // Set the introduction shown flag
+            introductionShown = true;
+            
+            // Generate the first puzzle after the introduction
+            generateNewPuzzle();
         });
         
         // Show the dialog
@@ -272,90 +276,109 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
     }
 
     private void generateNewPuzzle() {
-        // Reset UI state
-        answerEditText.setText("");
+        // Clear previous feedback
+        feedbackTextView.setText("");
         feedbackTextView.setVisibility(View.GONE);
-
-        // Generate puzzle based on current difficulty
-        String question;
-        int num1, num2, num3;
-
+        
+        // Clear previous answer
+        answerEditText.setText("");
+        
+        // Generate a new puzzle based on current difficulty
+        int num1, num2, result;
+        String operator;
+        Random random = new Random();
+        
         switch (currentDifficulty) {
             case EASY:
-                // Simple addition or subtraction
-                num1 = random.nextInt(10) + 1;  // 1-10
-                num2 = random.nextInt(10) + 1;  // 1-10
-
+                // Simple addition and subtraction with numbers 1-10
+                num1 = random.nextInt(10) + 1;
+                num2 = random.nextInt(10) + 1;
+                
+                // Ensure subtraction doesn't result in negative numbers
                 if (random.nextBoolean()) {
-                    // Addition
-                    question = "What is " + num1 + " + " + num2 + "?";
-                    currentAnswer = num1 + num2;
+                    operator = "+";
+                    result = num1 + num2;
                 } else {
-                    // Subtraction (ensure positive result)
+                    operator = "-";
+                    // Swap if needed to avoid negative results
                     if (num1 < num2) {
                         int temp = num1;
                         num1 = num2;
                         num2 = temp;
                     }
-                    question = "What is " + num1 + " - " + num2 + "?";
-                    currentAnswer = num1 - num2;
+                    result = num1 - num2;
                 }
                 break;
-
+                
             case MEDIUM:
-                // Multiplication or division
-                num1 = random.nextInt(10) + 1;  // 1-10
-                num2 = random.nextInt(5) + 1;   // 1-5
-
-                if (random.nextBoolean()) {
-                    // Multiplication
-                    question = "What is " + num1 + " × " + num2 + "?";
-                    currentAnswer = num1 * num2;
-                } else {
-                    // Division (ensure clean division)
-                    int product = num1 * num2;
-                    question = "What is " + product + " ÷ " + num1 + "?";
-                    currentAnswer = num2;
+                // More operations and larger numbers
+                int operation = random.nextInt(3); // 0: add, 1: subtract, 2: multiply
+                
+                if (operation == 0) { // Addition
+                    num1 = random.nextInt(20) + 1;
+                    num2 = random.nextInt(20) + 1;
+                    operator = "+";
+                    result = num1 + num2;
+                } else if (operation == 1) { // Subtraction
+                    num1 = random.nextInt(30) + 10; // 10-40
+                    num2 = random.nextInt(num1); // Ensure positive result
+                    operator = "-";
+                    result = num1 - num2;
+                } else { // Multiplication
+                    num1 = random.nextInt(10) + 1; // 1-10
+                    num2 = random.nextInt(5) + 1; // 1-5
+                    operator = "×";
+                    result = num1 * num2;
                 }
                 break;
-
+                
             case HARD:
-                // Mixed operations
-                num1 = random.nextInt(10) + 1;  // 1-10
-                num2 = random.nextInt(10) + 1;  // 1-10
-                num3 = random.nextInt(5) + 1;   // 1-5
-
-                int operation = random.nextInt(3);
-                if (operation == 0) {
-                    // Addition and multiplication
-                    question = "What is " + num1 + " + " + num2 + " × " + num3 + "?";
-                    currentAnswer = num1 + (num2 * num3);
-                } else if (operation == 1) {
-                    // Subtraction and multiplication (ensure positive result)
-                    if (num1 < (num2 * num3)) {
-                        num1 = (num2 * num3) + random.nextInt(10) + 1;
-                    }
-                    question = "What is " + num1 + " - " + num2 + " × " + num3 + "?";
-                    currentAnswer = num1 - (num2 * num3);
-                } else {
-                    // Parentheses
-                    question = "What is (" + num1 + " + " + num2 + ") × " + num3 + "?";
-                    currentAnswer = (num1 + num2) * num3;
+                // Complex operations
+                int hardOperation = random.nextInt(4); // 0: add, 1: subtract, 2: multiply, 3: divide
+                
+                if (hardOperation == 0) { // Addition with larger numbers
+                    num1 = random.nextInt(50) + 10;
+                    num2 = random.nextInt(50) + 10;
+                    operator = "+";
+                    result = num1 + num2;
+                } else if (hardOperation == 1) { // Subtraction with larger numbers
+                    num1 = random.nextInt(100) + 20;
+                    num2 = random.nextInt(num1);
+                    operator = "-";
+                    result = num1 - num2;
+                } else if (hardOperation == 2) { // Multiplication
+                    num1 = random.nextInt(12) + 1;
+                    num2 = random.nextInt(12) + 1;
+                    operator = "×";
+                    result = num1 * num2;
+                } else { // Division with clean results
+                    result = random.nextInt(10) + 1; // 1-10
+                    num2 = random.nextInt(5) + 2; // 2-6
+                    num1 = result * num2; // Ensures clean division
+                    operator = "÷";
                 }
                 break;
-
+                
             default:
-                question = "What is 1 + 1?";
-                currentAnswer = 2;
+                // Default to easy
+                num1 = random.nextInt(10) + 1;
+                num2 = random.nextInt(10) + 1;
+                operator = "+";
+                result = num1 + num2;
                 break;
         }
-
-        puzzleQuestionTextView.setText(question);
-
-        // Have Pepper say the question first, with priority
+        
+        // Store the current answer
+        currentAnswer = result;
+        
+        // Set the question text
+        String questionFormat = getString(R.string.puzzle_question_format);
+        String questionText = String.format(questionFormat, num1, operator, num2);
+        puzzleQuestionTextView.setText(questionText);
+        
+        // Have Pepper ask the question if available
         if (qiContext != null) {
-            // Create a special task that only speaks the question
-            new QuestionTask(question).execute();
+            new QuestionTask(questionText).execute();
         }
     }
 
@@ -370,9 +393,12 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
         @Override
         protected Boolean doInBackground(Void... voids) {
             try {
+                // Replace operator symbols with their spoken equivalents
+                String spokenText = getSpokenQuestionText(questionText);
+                
                 // Create and run the say action for the question
                 Say say = SayBuilder.with(qiContext)
-                        .withText(questionText)
+                        .withText(spokenText)
                         .build();
                 say.run();
                 
@@ -383,12 +409,25 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
             }
         }
     }
+    
+    // Helper method to convert visual operators to spoken words
+    private String getSpokenQuestionText(String visualText) {
+        String spokenText = visualText;
+        
+        // Replace operator symbols with their spoken equivalents
+        spokenText = spokenText.replace("+", " " + getString(R.string.operator_plus) + " ");
+        spokenText = spokenText.replace("-", " " + getString(R.string.operator_minus) + " ");
+        spokenText = spokenText.replace("×", " " + getString(R.string.operator_multiply) + " ");
+        spokenText = spokenText.replace("÷", " " + getString(R.string.operator_divide) + " ");
+        
+        return spokenText;
+    }
 
     private void checkAnswer() {
         String userAnswerStr = answerEditText.getText().toString().trim();
 
         if (TextUtils.isEmpty(userAnswerStr)) {
-            Toast.makeText(this, "Please enter an answer", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.please_enter_answer), Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -403,7 +442,7 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
                 correctCount++;
                 correctCountTextView.setText(String.valueOf(correctCount));
 
-                feedbackTextView.setText("Correct! Great job!");
+                feedbackTextView.setText(getString(R.string.correct_feedback_puzzle));
                 feedbackTextView.setTextColor(getResources().getColor(android.R.color.holo_green_dark, null));
 
                 // Adjust difficulty based on performance
@@ -413,16 +452,16 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
 
                 // Have Pepper celebrate
                 if (qiContext != null) {
-                    currentTask = new MathPuzzleTask("Correct! Great job!");
+                    currentTask = new MathPuzzleTask(getString(R.string.correct_answer));
                     currentTask.execute();
                 }
             } else {
-                feedbackTextView.setText("Not quite. The answer is " + currentAnswer);
+                feedbackTextView.setText(getString(R.string.wrong_feedback_puzzle, currentAnswer));
                 feedbackTextView.setTextColor(getResources().getColor(android.R.color.holo_red_dark, null));
 
                 // Have Pepper encourage
                 if (qiContext != null) {
-                    currentTask = new MathPuzzleTask("Not quite. The answer is " + currentAnswer + ". Let's try another one!");
+                    currentTask = new MathPuzzleTask(getString(R.string.wrong_answer_with_correct, currentAnswer));
                     currentTask.execute();
                 }
             }
@@ -430,7 +469,7 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
             feedbackTextView.setVisibility(View.VISIBLE);
 
         } catch (NumberFormatException e) {
-            Toast.makeText(this, "Please enter a valid number", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.please_enter_valid_number), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -438,11 +477,11 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
         switch (currentDifficulty) {
             case EASY:
                 currentDifficulty = Difficulty.MEDIUM;
-                Toast.makeText(this, "Level up! Medium difficulty puzzles", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.level_up_medium), Toast.LENGTH_SHORT).show();
                 break;
             case MEDIUM:
                 currentDifficulty = Difficulty.HARD;
-                Toast.makeText(this, "Level up! Hard difficulty puzzles", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this, getString(R.string.level_up_hard), Toast.LENGTH_SHORT).show();
                 break;
             case HARD:
                 // Already at max difficulty
@@ -462,7 +501,7 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
         protected Boolean doInBackground(Void... voids) {
             try {
                 // If it's a correct answer, do a happy animation first, then speak
-                if (text.contains("Correct")) {
+                if (text.contains(getString(R.string.correct_answer))) {
                     try {
                         // Create an animation from the raw resource
                         Animation animation = AnimationBuilder.with(qiContext)
@@ -487,7 +526,7 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
                     }
                 }
                 // If it's a wrong answer, do a negation animation first, then speak
-                else if (text.contains("Not quite")) {
+                else if (text.contains(getString(R.string.wrong_answer))) {
                     try {
                         // Create an animation from the raw resource
                         Animation animation = AnimationBuilder.with(qiContext)
@@ -533,11 +572,12 @@ public class MathPuzzlesActivity extends RobotActivity implements RobotLifecycle
         this.qiContext = qiContext;
         Log.i(TAG, "Robot focus gained");
         
-        // Speak the current question when robot focus is first gained
-        // This ensures the first question is spoken even if generateNewPuzzle was called before robot focus was gained
-        String currentQuestion = puzzleQuestionTextView.getText().toString();
-        if (!TextUtils.isEmpty(currentQuestion)) {
-            new QuestionTask(currentQuestion).execute();
+        // Only speak the current question if the introduction has been shown
+        if (introductionShown) {
+            String currentQuestion = puzzleQuestionTextView.getText().toString();
+            if (!TextUtils.isEmpty(currentQuestion)) {
+                new QuestionTask(currentQuestion).execute();
+            }
         }
     }
 

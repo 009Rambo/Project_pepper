@@ -49,19 +49,19 @@ public class MathTopicsActivity extends RobotActivity implements RobotLifecycleC
 
     private void setupButtonListeners() {
         additionButton.setOnClickListener(v -> {
-            explainAddition();
+            explainMathOperation("addition");
         });
 
         subtractionButton.setOnClickListener(v -> {
-            Toast.makeText(this, "Subtraction topic coming soon!", Toast.LENGTH_SHORT).show();
+            explainMathOperation("subtraction");
         });
 
         multiplicationButton.setOnClickListener(v -> {
-            Toast.makeText(this, "Multiplication topic coming soon!", Toast.LENGTH_SHORT).show();
+            explainMathOperation("multiplication");
         });
 
         divisionButton.setOnClickListener(v -> {
-            Toast.makeText(this, "Division topic coming soon!", Toast.LENGTH_SHORT).show();
+            explainMathOperation("division");
         });
 
         mathPuzzlesButton.setOnClickListener(v -> {
@@ -74,26 +74,48 @@ public class MathTopicsActivity extends RobotActivity implements RobotLifecycleC
         });
     }
 
-    private void explainAddition() {
+    private void explainMathOperation(String operation) {
         if (qiContext == null) {
-            Toast.makeText(this, "Robot not connected", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, getString(R.string.status_error_robot), Toast.LENGTH_SHORT).show();
             return;
         }
 
         // Disable buttons during explanation
         setButtonsEnabled(false);
         
+        // Get the appropriate string resources based on the operation
+        int explanationStartResId;
+        int explanationTextResId;
+        
+        switch (operation) {
+            case "subtraction":
+                explanationStartResId = R.string.explaining_subtraction;
+                explanationTextResId = R.string.subtraction_explanation;
+                break;
+            case "multiplication":
+                explanationStartResId = R.string.explaining_multiplication;
+                explanationTextResId = R.string.multiplication_explanation;
+                break;
+            case "division":
+                explanationStartResId = R.string.explaining_division;
+                explanationTextResId = R.string.division_explanation;
+                break;
+            case "addition":
+            default:
+                explanationStartResId = R.string.explaining_addition;
+                explanationTextResId = R.string.addition_explanation;
+                break;
+        }
+        
         // Show a toast to indicate the explanation is starting
-        Toast.makeText(this, "Explaining addition...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(explanationStartResId), Toast.LENGTH_SHORT).show();
 
         // Run the explanation in a background thread
+        final int finalExplanationTextResId = explanationTextResId;
         new Thread(() -> {
             try {
                 // Create and run the Say action
-                String explanation = "Addition is when we combine numbers together. " +
-                        "For example, if you have 2 apples and I give you 3 more, " +
-                        "you now have 2 plus 3, which equals 5 apples. " +
-                        "The plus sign means we are adding numbers together.";
+                String explanation = getString(finalExplanationTextResId);
                 
                 Say say = SayBuilder.with(qiContext)
                         .withText(explanation)
@@ -131,13 +153,13 @@ public class MathTopicsActivity extends RobotActivity implements RobotLifecycleC
         new Thread(() -> {
             try {
                 Say welcome = SayBuilder.with(qiContext)
-                        .withText("Welcome to Math Topics! Choose a topic to learn about, or try some math puzzles.")
+                        .withText(getString(R.string.math_topics_welcome))
                         .build();
                 welcome.run();
             } catch (Exception e) {
                 runOnUiThread(() -> {
                     Toast.makeText(MathTopicsActivity.this, 
-                            "Error in welcome message: " + e.getMessage(), 
+                            getString(R.string.error_welcome_message, e.getMessage()), 
                             Toast.LENGTH_SHORT).show();
                 });
             }
@@ -152,7 +174,7 @@ public class MathTopicsActivity extends RobotActivity implements RobotLifecycleC
     @Override
     public void onRobotFocusRefused(String reason) {
         // Handle focus refused
-        Toast.makeText(this, "Robot focus refused: " + reason, Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, getString(R.string.status_connection_refused, reason), Toast.LENGTH_SHORT).show();
     }
 
     @Override

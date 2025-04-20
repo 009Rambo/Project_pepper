@@ -1,3 +1,148 @@
 <resources>
     <string name="app_name">PepperProject</string>
+    
+    <!-- Main Activity -->
+    <string name="app_title">Pepper\'s Learning Adventure</string>
+    <string name="robot_description">Pepper Robot</string>
+    <string name="greeting_text">What would you like to learn today?</string>
+    <string name="coding_basics_button">Coding Basics</string>
+    <string name="robot_commands_button">Robot Commands</string>
+    <string name="math_topics_button">Math Topics</string>
+    <string name="fun_facts_button">Fun Facts</string>
+    <string name="status_ready">Status: Ready</string>
+    <string name="footer_text">Pepper\'s Learning Adventure 2025</string>
+    <string name="robot_greeting">Hello there! Welcome to Pepper\'s Learning Adventure! What would you like to learn today?</string>
+    <string name="status_connected">Connected to robot</string>
+    <string name="status_disconnected">Disconnected from robot</string>
+    <string name="status_connection_refused">Connection refused: %1$s</string>
+    <string name="status_starting_topic">Starting %1$s...</string>
+    <string name="status_error_robot">Error: Robot not connected</string>
+    <string name="status_completed_topic">Completed %1$s!</string>
+    <string name="status_ready_for_next_topic">Ready for next topic</string>
+    <string name="status_interaction_failed">Interaction failed</string>
+    <string name="status_preparing_topic">Preparing to teach %1$s...</string>
+    <string name="coding_basics_content">Coding is like giving instructions to a computer. Let\'s learn how to write simple code!</string>
+    <string name="robot_commands_content">Robots like me understand special commands. Let me show you how to control robots!</string>
+    <string name="math_puzzles_content">Math can be really fun with puzzles! Let\'s solve some together!</string>
+    
+    <!-- Math Topics Activity -->
+    <string name="math_topics_title">Math Topics</string>
+    <string name="math_topics_subtitle">Choose a topic to learn about, or try some math puzzles</string>
+    <string name="addition_button">Addition (+)</string>
+    <string name="subtraction_button">Subtraction (-)</string>
+    <string name="multiplication_button">Multiplication (×)</string>
+    <string name="division_button">Division (÷)</string>
+    <string name="math_puzzles_button">Math Puzzles</string>
+    <string name="back_button">Back</string>
+    <string name="topic_coming_soon">%1$s topic coming soon!</string>
+    <string name="explaining_addition">Explaining addition...</string>
+    <string name="addition_explanation">Addition is when we combine numbers together. For example, if you have 2 apples and I give you 3 more, you now have 2 plus 3, which equals 5 apples. The plus sign means we are adding numbers together.</string>
+    <string name="math_topics_welcome">Welcome to Math Topics! Choose a topic to learn about, or try some math puzzles.</string>
+    <string name="error_welcome_message">Error in welcome message: %1$s</string>
+    
+    <!-- New Math Explanations -->
+    <string name="explaining_subtraction">Explaining subtraction...</string>
+    <string name="subtraction_explanation">Subtraction is when we take away numbers. For example, if you have 5 candies and you eat 2 of them, you now have 5 minus 2, which equals 3 candies left. The minus sign means we are taking away or subtracting numbers.</string>
+    
+    <string name="explaining_multiplication">Explaining multiplication...</string>
+    <string name="multiplication_explanation">Multiplication is a faster way of adding the same number multiple times. For example, 3 times 4 means adding 3 four times: 3 + 3 + 3 + 3 = 12. If you have 3 bags with 4 marbles in each, you have 3 times 4, which equals 12 marbles in total.</string>
+    
+    <string name="explaining_division">Explaining division...</string>
+    <string name="division_explanation">Division is sharing numbers into equal groups. For example, if you have 8 cookies and want to share them equally between 2 friends, each friend gets 8 divided by 2, which equals 4 cookies each. The division sign means we are splitting numbers into equal parts.</string>
+    
+    <!-- Math Operator Pronunciation -->
+    <string name="operator_plus">plus</string>
+    <string name="operator_minus">minus</string>
+    <string name="operator_multiply">times</string>
+    <string name="operator_divide">divided by</string>
+    
+    <!-- Coding Basic Activity -->
+    <string name="coding_basics_title">Coding Basics</string>
+    <string name="question_placeholder">Question goes here</string>
+    <string name="enter_answer_coding">Enter your answer</string>
+    <string name="submit_button">Submit</string>
+    <string name="next_question_button">Next Question</string>
+    <string name="back_to_main_button">Back to main menu</string>
+    <string name="play_block_game_button">Play Block Game</string>
+    <string name="please_enter_answer">Please enter an answer</string>
+    <string name="correct_feedback">Yay! You got it right! 🎉</string>
+    <string name="wrong_feedback">Oops! The right answer is: %1$s</string>
+    <string name="correct_speech">Yay! You got it right! Great job!</string>
+    <string name="wrong_speech">Oops! The right answer is %1$s. Let\'s try another one!</string>
+    
+    <!-- Coding Questions -->
+    <string name="coding_question_1">What comes next in the pattern? 2, 4, 6, ?</string>
+    <string name="coding_question_2">Which block repeats an action in coding? (loop, jump, stop)</string>
+    <string name="coding_question_3">Which number is bigger: 3 or 7?</string>
+    <string name="coding_question_4">What does an \'if\' statement do? (choose, repeat, stop)</string>
+    <string name="coding_answer_1">8</string>
+    <string name="coding_answer_2">loop</string>
+    <string name="coding_answer_3">7</string>
+    <string name="coding_answer_4">choose</string>
+    
+    <!-- Block Game Activity -->
+    <string name="block_game_title">Block Game</string>
+    <string name="block_game_placeholder">Block Game goes here!</string>
+    
+    <!-- Math Puzzles Activity -->
+    <string name="math_puzzles_title">Math Puzzles</string>
+    <string name="submit_answer">Submit</string>
+    <string name="voice_input">Voice</string>
+    <string name="enter_answer_hint">Enter your answer</string>
+    <string name="next_puzzle">Next Puzzle</string>
+    <string name="back_to_topics">Back to Math Topics</string>
+    <string name="correct_count">Correct Answers: </string>
+    <string name="total_attempts">Total Attempts: </string>
+    <string name="statistics_title">Statistics</string>
+    <string name="puzzle_question_format">What is %1$d %2$s %3$d?</string>
+    <string name="correct_feedback_puzzle">Correct! Great job!</string>
+    <string name="wrong_feedback_puzzle">Not quite. The answer is %1$d</string>
+    <string name="wrong_answer_with_correct">Not quite. Try again! %1$d. Let\'s try another one!</string>
+    <string name="please_enter_valid_number">Please enter a valid number</string>
+    <string name="level_up_medium">Level up! Medium difficulty puzzles</string>
+    <string name="level_up_hard">Level up! Hard difficulty puzzles</string>
+    
+    <!-- Math Puzzle Dialog -->
+    <string name="dialog_title">How Math Puzzles Work</string>
+    <string name="dialog_description">The puzzles start easy and gradually get more challenging as you solve them correctly.</string>
+    <string name="easy_level">• Easy level: Simple addition and subtraction</string>
+    <string name="medium_level">• Medium level: More complex operations</string>
+    <string name="hard_level">• Hard level: Challenging math problems</string>
+    <string name="level_up_info">You\'ll level up after solving 3 puzzles correctly at each difficulty level!</string>
+    <string name="start_puzzles">Let\'s Start!</string>
+    
+    <!-- Sample Puzzle Question -->
+    <string name="sample_question">What is 5 + 3?</string>
+    
+    <!-- Robot speech -->
+    <string name="intro_message">Let\'s solve some math puzzles! I\'ll start with easy ones and make them harder as you progress.</string>
+    <string name="correct_answer">Correct! Well done!</string>
+    <string name="wrong_answer">Not quite. Try again!</string>
+    <string name="show_correct_answer">The correct answer is %1$d.</string>
+    <string name="next_puzzle_prompt">Let\'s try another puzzle!</string>
+    <string name="difficulty_increased">Great job! I\'ll make the puzzles a bit harder now.</string>
+    
+    <!-- Fun Facts -->
+    <string name="fun_fact_1">Did you know that robots like me can recognize human emotions?</string>
+    <string name="fun_fact_2">Robots are being used to explore distant planets, like Mars.</string>
+    <string name="fun_fact_3">Some robots can fold laundry and even play musical instruments!</string>
+    <string name="fun_fact">Fun Fact: %1$s</string>
+    
+    <!-- Robot Commands Activity -->
+    <string name="robot_command_center">Pepper Robot Command Center</string>
+    <string name="move_forward">Move Forward</string>
+    <string name="turn_left">Turn Left</string>
+    <string name="turn_right">Turn Right</string>
+    <string name="type_to_say">Type something to say...</string>
+    <string name="speak">Speak</string>
+    <string name="listen_voice_command">Listen for Voice Command</string>
+    <string name="moving_forward">Moving forward!</string>
+    <string name="turning_left">Turning left!</string>
+    <string name="turning_right">Turning right!</string>
+    <string name="hello_im_pepper">Hello! I\'m Pepper!</string>
+    <string name="voice_command_move_forward">move forward</string>
+    <string name="voice_command_turn_left">turn left</string>
+    <string name="voice_command_turn_right">turn right</string>
+    <string name="voice_command_say_hello">say hello</string>
+    <string name="voice_command_not_understood">Sorry, I didn\'t understand.</string>
 </resources>

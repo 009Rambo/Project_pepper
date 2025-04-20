@@ -17,7 +17,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="How Math Puzzles Work"
+            android:text="@string/dialog_title"
             android:textColor="#2196F3"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="The puzzles start easy and gradually get more challenging as you solve them correctly."
+            android:text="@string/dialog_description"
             android:textColor="#212121"
             android:textSize="18sp"
             android:layout_marginBottom="8dp" />
@@ -35,7 +35,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="• Easy level: Simple addition and subtraction"
+            android:text="@string/easy_level"
             android:textColor="#4CAF50"
             android:textSize="16sp"
             android:layout_marginBottom="4dp" />
@@ -43,7 +43,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="• Medium level: More complex operations"
+            android:text="@string/medium_level"
             android:textColor="#FF9800"
             android:textSize="16sp"
             android:layout_marginBottom="4dp" />
@@ -51,7 +51,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="• Hard level: Challenging math problems"
+            android:text="@string/hard_level"
             android:textColor="#F44336"
             android:textSize="16sp"
             android:layout_marginBottom="16dp" />
@@ -59,7 +59,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="You'll level up after solving 3 puzzles correctly at each difficulty level!"
+            android:text="@string/level_up_info"
             android:textColor="#212121"
             android:textSize="16sp"
             android:layout_marginBottom="24dp" />
@@ -68,7 +68,7 @@
             android:id="@+id/btnStartPuzzles"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Let's Start!"
+            android:text="@string/start_puzzles"
             android:textColor="#FFFFFF"
             android:backgroundTint="#2196F3"
             android:padding="12dp"
