@@ -7,13 +7,13 @@ README
 PepperSDK (QiSDK)
 Android Studio Bumblebee | 2021.1.1 Patch 3 April 7, 2022
 
-📌 Project Overview
+## 📌 Project Overview
 
 PepperProject is an Android-based application designed for the SoftBank Robotics Pepper Robot. It integrates with Pepper Simulator 7.0 to enable testing without a physical robot. This guide provides a step-by-step setup, build instructions, and troubleshooting tips.
 
  
 
-📂 Project Structure
+## 📂 Project Structure
 
 
 ```
@@ -31,7 +31,7 @@ PepperProject/
 │-- gradlew.bat             # Gradle wrapper script (Windows)
 🔧 Setup Instructions
 ```
-1️⃣ Prerequisites
+## 1️⃣ Prerequisites
 
 Before starting, ensure you have the following installed:
 
@@ -44,20 +44,20 @@ Before starting, ensure you have the following installed:
 Check installation versions:
 
 
-
+```
 sh
 java -version 
 
-gradle -v 
+gradle -v
+```
 
-2️⃣ Cloning the Project
+## 2️⃣ Cloning the Project
 
 Clone the repository from GitHub:
-
-
-
+```
 sh
-git clone https://github.com/009Rambo/Project_pepper.git cd PepperProject 
+git clone https://github.com/009Rambo/Project_pepper.git cd PepperProject
+```
 
 3️⃣ Open Project in Android Studio
 
@@ -67,11 +67,11 @@ Click "Open", navigate to the PepperProject folder, and select it.
 
 Wait for Gradle sync to complete.
 
-🤖 Setting Up Pepper Simulator 7.0
+## 🤖 Setting Up Pepper Simulator 7.0
 
 Pepper Simulator 7.0 allows testing without a physical robot.
 
-📥 Installing Pepper Simulator
+## 📥 Installing Pepper Simulator
 
 Download Pepper Simulator 7.0 from SoftBank Robotics:
 SoftBank Developer Portal
@@ -82,7 +82,7 @@ Windows: Run the .exe installer
 
 Mac/Linux: Run the .sh installer
 
-🚀 Running the Simulator
+## 🚀 Running the Simulator
 
 Start Pepper Simulator with:
 
@@ -113,7 +113,7 @@ Run the app using:
 sh
 ./gradlew assembleDebug adb install app/build/outputs/apk/debug/app-debug.apk 
 
-⚙️ Building and Running
+## ⚙️ Building and Running
 
 4️⃣ Clean and Sync Gradle
 
@@ -149,7 +149,7 @@ sh
 
 🛠️ Troubleshooting Guide
 
-🔴 Gradle Sync Issues
+## 🔴 Gradle Sync Issues
 
 If you see errors like "Project directory is not part of the build", try:
 
@@ -169,7 +169,7 @@ rm -rf .gradle .idea
 
 Restart Android Studio and sync again.
 
-🔴 Emulator Not Starting
+## 🔴 Emulator Not Starting
 
 If the emulator fails to start:
 
@@ -179,7 +179,7 @@ Delete the existing emulator and create a new one
 
 Ensure Intel HAXM is installed (SDK Manager > SDK Tools)
 
-🔴 Pepper Simulator Not Connecting
+## 🔴 Pepper Simulator Not Connecting
 
 If the app can't connect to Pepper Simulator 7.0:
 
@@ -193,10 +193,9 @@ sh
 qisim --verbose 
 
  
-
 Confirm Pepper's IP address and update the app's connection settings.
 
-📜 Useful Gradle Commands
+## 📜 Useful Gradle Commands
 
 Command
 
@@ -226,10 +225,9 @@ List all project dependencies
 
 Refresh Gradle dependencies
 
-📦 Dependencies
+## 📦 Dependencies
 
 All dependencies are defined inside app/build.gradle:
-
 
 
 gradle
@@ -248,7 +246,7 @@ To add new dependencies, update this file and run:
 sh
 ./gradlew build 
 
-📌 Deployment
+## 📌 Deployment
 
 Generating a Signed APK
 
@@ -263,9 +261,10 @@ Choose release build and finish
 Alternatively, use:
 
 
-
+```
 sh
-./gradlew assembleRelease 
+./gradlew assembleRelease
+```
 
 The APK will be located in:
 
@@ -274,23 +273,24 @@ The APK will be located in:
 arduino
 app/build/outputs/apk/release/app-release.apk 
 
-📜 Version Control (Git)
+## 📜 Version Control (Git)
 
-💾 Saving Changes
+# 💾 Saving Changes
 
 
-
+```
 sh
-git add . git commit -m "Updated PepperProject" git push origin main 
+git add . git commit -m "Updated PepperProject" git push origin main
+```
 
-⬇️ Pulling Updates
+# ⬇️ Pulling Updates
 
-
-
+```
 sh
-git pull origin main 
+git pull origin main
+```
 
-👨‍💻 Contributors
+## 👨‍💻 Contributors
 
 Anton lahtinen
 
@@ -302,7 +302,7 @@ Ramesh Pandey
 
  
 
-📜 License
+## 📜 License
 
 This project is licensed under the MIT License.
 
