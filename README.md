@@ -16,7 +16,7 @@ PepperProject is an Android-based application designed for the SoftBank Robotics
 📂 Project Structure
 
 
-
+```
 
 PepperProject/
 │-- app/                    # Main Android app source code
@@ -30,7 +30,7 @@ PepperProject/
 │-- gradlew                 # Gradle wrapper script (Linux/Mac)
 │-- gradlew.bat             # Gradle wrapper script (Windows)
 🔧 Setup Instructions
-
+```
 1️⃣ Prerequisites
 
 Before starting, ensure you have the following installed:
