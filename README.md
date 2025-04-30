@@ -31,7 +31,7 @@ PepperProject/
 │-- gradlew.bat             # Gradle wrapper script (Windows)
 🔧 Setup Instructions
 ```
-## 1️⃣ Prerequisites
+# 1️⃣ Prerequisites
 
 Before starting, ensure you have the following installed:
 
@@ -51,7 +51,7 @@ java -version
 gradle -v
 ```
 
-## 2️⃣ Cloning the Project
+# 2️⃣ Cloning the Project
 
 Clone the repository from GitHub:
 ```
@@ -59,7 +59,7 @@ sh
 git clone https://github.com/009Rambo/Project_pepper.git cd PepperProject
 ```
 
-3️⃣ Open Project in Android Studio
+# 3️⃣ Open Project in Android Studio
 
 Open Android Studio
 
@@ -107,7 +107,6 @@ java
 String pepperIp = "192.168.X.X";  // Replace with the IP from the simulator Robot myRobot = new Robot(pepperIp); 
 
 Run the app using:
-
 
 
 sh
