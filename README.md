@@ -35,11 +35,11 @@ PepperProject/
 
 Before starting, ensure you have the following installed:
 
-✅ Java Development Kit (JDK) Version 1.8 or Higher
-✅ Android Studio Bumblebee | 2021.1.1 Patch 3 April 7, 2022
-✅ Gradle (Built-in with Android Studio)
-✅ Git (for version control)
-✅ Pepper Simulator 7.0 (SoftBank Robotics)
+✅ Java Development Kit (JDK) Version 1.8 or Higher  
+✅ Android Studio Bumblebee | 2021.1.1 Patch 3 April 7, 2022  
+✅ Gradle (Built-in with Android Studio)  
+✅ Git (for version control)  
+✅ Pepper Simulator 7.0 (SoftBank Robotics)  
 
 Check installation versions:
 
