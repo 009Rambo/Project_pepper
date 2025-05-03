@@ -74,26 +74,26 @@ Pepper Simulator 7.0 allows testing without a physical robot.
 ## 📥 Installing Pepper Simulator
 
 Download Pepper Simulator 7.0 from SoftBank Robotics:
-SoftBank Developer Portal
+SoftBank Developer Portal: [SoftBank Developer](https://android.aldebaran.com/sdk/doc/pepper-sdk/ch1_gettingstarted/getting_started.html)
 
 Install using:
 
-Windows: Run the .exe installer
-
-Mac/Linux: Run the .sh installer
+Windows: ```` Run the .exe installer ```
+Mac/Linux: ``` Run the .sh installer ```
 
 ## 🚀 Running the Simulator
 
 Start Pepper Simulator with:
 
 
-
+```
 sh
-qisim --verbose 
+qisim --verbose
+```
 
 This should launch a virtual Pepper Robot in a simulated environment.
 
-📡 Connecting Android App to Pepper Simulator (optional)
+# 📡 Connecting Android App to Pepper Simulator (optional)
 
 Open Pepper Simulator
 
@@ -107,23 +107,26 @@ java
 String pepperIp = "192.168.X.X";  // Replace with the IP from the simulator Robot myRobot = new Robot(pepperIp); 
 
 Run the app using:
-
+```
 
 sh
-./gradlew assembleDebug adb install app/build/outputs/apk/debug/app-debug.apk 
+./gradlew assembleDebug adb install app/build/outputs/apk/debug/app-debug.apk
+
+```
 
 ## ⚙️ Building and Running
 
-4️⃣ Clean and Sync Gradle
+# 4️⃣ Clean and Sync Gradle
 
 If the project fails to sync, run:
-
-
+```
 
 sh
 ./gradlew clean 
 
-./gradlew build 
+./gradlew build
+
+```
 
 OR inside Android Studio:
 
@@ -131,7 +134,7 @@ File > Sync Project with Gradle Files
 
 If errors occur, try File > Invalidate Caches & Restart
 
-5️⃣ Running the App
+# 5️⃣ Running the App
 
 To run the app on an emulator or a connected device:
 
@@ -141,10 +144,10 @@ Click the Run (▶️) button in Android Studio
 
 OR use:
 
-
-
+```
 sh
-./gradlew assembleDebug adb install app/build/outputs/apk/debug/app-debug.apk 
+./gradlew assembleDebug adb install app/build/outputs/apk/debug/app-debug.apk
+```
 
 🛠️ Troubleshooting Guide
 
@@ -155,16 +158,15 @@ If you see errors like "Project directory is not part of the build", try:
 Open settings.gradle and ensure it includes:
 
 
-
 gradle
 rootProject.name = "PepperProject" include ':app' 
 
 Delete .gradle and .idea folders:
-
-
+```
 
 sh
-rm -rf .gradle .idea 
+rm -rf .gradle .idea
+```
 
 Restart Android Studio and sync again.
 
@@ -186,12 +188,12 @@ Ensure both Android device and Pepper Simulator are on the same network
 
 Try restarting the simulator using:
 
-
+```
 
 sh
 qisim --verbose 
 
- 
+```
 Confirm Pepper's IP address and update the app's connection settings.
 
 ## 📜 Useful Gradle Commands
@@ -199,35 +201,35 @@ Confirm Pepper's IP address and update the app's connection settings.
 Command
 
 Description
-
+```
 ./gradlew build
-
+```
 Build the project
-
+```
 ./gradlew clean
-
+```
 Clean the project files
-
+```
 ./gradlew assembleDebug
-
+```
 Create a debug APK
-
+```
 ./gradlew assembleRelease
-
+```
 Create a release APK
-
+```
 ./gradlew dependencies
-
+```
 List all project dependencies
-
+```
 ./gradlew --refresh-dependencies
-
+```
 Refresh Gradle dependencies
 
 ## 📦 Dependencies
 
 All dependencies are defined inside app/build.gradle:
-
+```
 
 gradle
 dependencies {     implementation 'com.android.support:appcompat-v7:28.0.0'     
@@ -237,14 +239,14 @@ implementation 'com.aldebaran.qi:sdk:7.0.0'  // Pepper SDK
 implementation 'com.google.code.gson:gson:2.8.9'
 
  } 
-
+```
 To add new dependencies, update this file and run:
 
-
+```
 
 sh
 ./gradlew build 
-
+```
 ## 📌 Deployment
 
 Generating a Signed APK
@@ -303,6 +305,5 @@ Ramesh Pandey
 
 ## 📜 License
 
-This project is licensed under the MIT License.
+This project is licensed under the [MIT](https://en.wikipedia.org/wiki/MIT_License) License.
 
-Add label
