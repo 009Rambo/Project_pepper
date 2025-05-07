@@ -11,6 +11,13 @@ Android Studio Bumblebee | 2021.1.1 Patch 3 April 7, 2022
 
 PepperProject is an Android-based application designed for the SoftBank Robotics Pepper Robot. It integrates with Pepper Simulator 7.0 to enable testing without a physical robot. This guide provides a step-by-step setup, build instructions, and troubleshooting tips.
 
+## Application after first installation on Pepper Robot
+
+
+https://github.com/user-attachments/assets/517ad31b-f115-4f23-b537-f32eede5d9e1
+
+
+
  
 
 ## 📂 Project Structure
